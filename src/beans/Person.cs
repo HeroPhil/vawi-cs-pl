@@ -10,6 +10,11 @@ class Person : IDataBean<Person>
 
     public Person()
     {
+        ID = -1;
+        Vorname = "";
+        Nachname = "";
+        Adresse = new Adresse();
+        Abschluss = "";
     }
 
     public Person(PersonTypEnum personTyp, string vorname, string nachname, string abschluss, DateTime geburtsdatum, Adresse adresse)

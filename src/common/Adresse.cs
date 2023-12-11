@@ -6,6 +6,15 @@ class Adresse
     public string Ort { get; set; }
     public string Land { get; set; }
 
+    public Adresse()
+    {
+        Strasse = "";
+        Hausnummer = "";
+        PLZ = "";
+        Ort = "";
+        Land = "";
+    }
+
     public Adresse(string strasse, string hausnummer, string plz, string ort, string land)
     {
         Strasse = strasse;
