@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 class Person : IDataBean<Person>
 {
     public int ID { get; set; }
@@ -42,5 +44,15 @@ class Person : IDataBean<Person>
     public string[] GetValues()
     {
         return new string[] { ID.ToString(), PersonTyp.ToString(), Vorname, Nachname, Adresse.ToString(), Geburtsdatum.ToString(), Abschluss };
+    }
+
+    public override string ToString()
+    {
+        return $"{ID}|{PersonTyp}|{Vorname}|{Nachname}|{Adresse}|{Geburtsdatum}|{Abschluss}";
+    }
+
+    public string GetHeader()
+    {
+        return $"ID|PersonTyp|Vorname|Nachname|{Adresse.GetHeader()}|Geburtsdatum|Abschluss";
     }
 }

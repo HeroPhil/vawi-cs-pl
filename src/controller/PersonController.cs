@@ -14,9 +14,10 @@ class PersonController : DataStore<Person>
 
     public void PrintAll()
     {
-        foreach (var item in _data)
+        Console.WriteLine(new Person().GetHeader()); // static not possible with interface
+        foreach (Person item in _data)
         {
-            Console.WriteLine(item);
+            Console.WriteLine(item.ToString());
         }
     }
 

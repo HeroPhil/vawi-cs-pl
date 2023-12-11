@@ -33,11 +33,14 @@ class Adresse
         Land = values[4];
     }
 
-
-
     public override string ToString()
     {
         return $"{Strasse}|{Hausnummer}|{PLZ}|{Ort}|{Land}";
     }
+
+    public string GetHeader()
+    {
+        return "Strasse|Hausnummer|PLZ|Ort|Land";
+    }   
 
 }

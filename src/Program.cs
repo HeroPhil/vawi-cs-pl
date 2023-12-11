@@ -4,13 +4,17 @@
     static void Main()
     {
 
+        init();
+        Loop();
+    }
+
+    static void init()
+    {
         personController = new PersonController();
-        personController.PrintAll();
-        Person p = new Person(PersonTypEnum.Student, "Max", "Mustermann", "Matura", new DateTime(1990, 1, 1), new Adresse("Musterstrasse", "1", "1234", "Musterort", "Musterland"));
-        personController.Add(p);
-        personController.PrintAll();
+    }
 
-
+    static void Loop()
+    {
         while (true)
         {
             Console.WriteLine("Enter a command:");
