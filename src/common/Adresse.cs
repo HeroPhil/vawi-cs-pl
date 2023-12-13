@@ -25,7 +25,7 @@ class Adresse
     }
 
     public Adresse(string value) {
-        string[] values = value.Split('|');
+        string[] values = value.Split(AbstractController<Person>.SubFieldDelimiter);
         Strasse = values[0];
         Hausnummer = values[1];
         PLZ = values[2];
@@ -35,12 +35,12 @@ class Adresse
 
     public override string ToString()
     {
-        return $"{Strasse}|{Hausnummer}|{PLZ}|{Ort}|{Land}";
+        return new string[] { Strasse, Hausnummer, PLZ, Ort, Land }.Aggregate((a, b) => a + AbstractController<Person>.SubFieldDelimiter + b);
     }
 
     public string GetHeader()
     {
-        return "Strasse|Hausnummer|PLZ|Ort|Land";
+        return new string[] {"Strasse", "Hausnummer", "PLZ", "Ort", "Land"}.Aggregate((a, b) => a + AbstractController<Person>.SubFieldDelimiter + b);
     }   
 
 }

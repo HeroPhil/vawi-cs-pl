@@ -1,5 +1,11 @@
-class PersonController : DataStore<Person>
+class PersonController : AbstractController<Person>
 {
+    static PersonController? instance;
+
+    public static PersonController GetInstance()
+    {
+        return instance ??= new PersonController();
+    }
     public PersonController() : base(Environment.CurrentDirectory + "/data/person.csv")
     {
         Load();

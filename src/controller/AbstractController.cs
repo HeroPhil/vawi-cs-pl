@@ -1,16 +1,27 @@
 
-using System.Collections;
 using Microsoft.VisualBasic.FileIO;
 
-class DataStore<T> where T : IDataBean<T>, new()
+abstract class AbstractController<T> where T : DataBean<T>, new()
 {
+    public static string FileFieldDelimiter { get; } = ",";
+    public static string PrintFieldDelimiter { get; } = "|";
+    public static string SubFieldDelimiter { get; } = ":";
+
     protected List<T> _data { get; }
 
     private string _storagePath { get; }
 
     protected bool _autoSave { get; } = true;
 
-    public DataStore(string storagePath)
+    public int NextFreeId
+    {
+        get
+        {
+            return _data.Select(item => item.ID).DefaultIfEmpty(0).Max() + 1;
+        }
+    }
+
+    public AbstractController(string storagePath)
     {
         _data = new List<T>();
         _storagePath = storagePath;
@@ -22,7 +33,7 @@ class DataStore<T> where T : IDataBean<T>, new()
     }
 
 
-    public DataStore<T> Load()
+    public AbstractController<T> Load()
     {
         // Load data from file in _storagePath
         using (var parser = new TextFieldParser(_storagePath))
@@ -31,28 +42,33 @@ class DataStore<T> where T : IDataBean<T>, new()
             parser.SetDelimiters(",");
             while (!parser.EndOfData)
             {
-                //Process row
-                string[] fields = parser.ReadFields();
-                _data.Add(new T().SetValues(fields));
+                // Process row
+                string[]? fields = parser.ReadFields();
+                if (fields != null)
+                {
+                    _data.Add(new T().SetValues(fields));
+                }
             }
         }
 
         return this;
     }
 
-    public DataStore<T> Save()
+    public AbstractController<T> Save()
     {
         // Save data to file in _storagePath
         using (var writer = new StreamWriter(_storagePath))
         {
             foreach (var item in _data)
             {
-                writer.WriteLine(item.GetValues().Aggregate((a, b) => a + "," + b));
+                writer.WriteLine(item.GetValues().Aggregate((a, b) => a + FileFieldDelimiter + b));
             }
         }
 
         return this;
     }
+
+
 
 
 

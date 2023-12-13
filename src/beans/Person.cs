@@ -1,6 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 
-class Person : IDataBean<Person>
+class Person : DataBean<Person>
 {
     public int ID { get; set; }
     public PersonTypEnum PersonTyp { get; set; }
@@ -29,7 +29,7 @@ class Person : IDataBean<Person>
         Adresse = adresse;
     }
 
-    public Person SetValues(params string[] values)
+    public override Person SetValues(params string[] values)
     {
         ID = int.Parse(values[0]);
         PersonTyp = Enum.Parse<PersonTypEnum>(values[1]);
@@ -41,18 +41,18 @@ class Person : IDataBean<Person>
         return this;
     }
 
-    public string[] GetValues()
+    public override string[] GetValues()
     {
         return new string[] { ID.ToString(), PersonTyp.ToString(), Vorname, Nachname, Adresse.ToString(), Geburtsdatum.ToString(), Abschluss };
     }
 
     public override string ToString()
     {
-        return $"{ID}|{PersonTyp}|{Vorname}|{Nachname}|{Adresse}|{Geburtsdatum}|{Abschluss}";
+        return GetValues().Aggregate((a, b) => a + AbstractController<Person>.PrintFieldDelimiter + b);
     }
 
-    public string GetHeader()
+    public override string GetHeader()
     {
-        return $"ID|PersonTyp|Vorname|Nachname|{Adresse.GetHeader()}|Geburtsdatum|Abschluss";
+        return new string[] {"ID", "PersonTyp", "Vorname", "Nachname", Adresse.GetHeader(), "Geburtsdatum", "Abschluss"}.Aggregate((a, b) => a + AbstractController<Person>.PrintFieldDelimiter + b);
     }
 }
