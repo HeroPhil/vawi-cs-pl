@@ -1,2 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfKurs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<ArrayOfKurs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Kurs>
+    <ID>1</ID>
+    <Name>C Sharp</Name>
+    <Beschreibung>Einstieg in OOP mit C Sharp</Beschreibung>
+    <Semester>WISE23/24</Semester>
+    <Startdatum>2023-10-01T00:00:00</Startdatum>
+    <Enddatum>2024-03-31T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>2</ID>
+    <Name>Java</Name>
+    <Beschreibung>Einstieg in OOP mit Java</Beschreibung>
+    <Semester>WISE23/24</Semester>
+    <Startdatum>2023-10-01T00:00:00</Startdatum>
+    <Enddatum>2024-03-31T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>3</ID>
+    <Name>Python</Name>
+    <Beschreibung>Einstieg in funktionale Programmierung mit Python</Beschreibung>
+    <Semester>WISE23/24</Semester>
+    <Startdatum>2023-10-01T00:00:00</Startdatum>
+    <Enddatum>2024-03-31T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>4</ID>
+    <Name>JavaScript</Name>
+    <Beschreibung>Einstieg in Web-Programmierung mit JavaScript</Beschreibung>
+    <Semester>WISE23/24</Semester>
+    <Startdatum>2023-10-01T00:00:00</Startdatum>
+    <Enddatum>2024-03-31T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>5</ID>
+    <Name>C Sharp</Name>
+    <Beschreibung>Einstieg in OOP mit C Sharp</Beschreibung>
+    <Semester>SOSE24</Semester>
+    <Startdatum>2024-04-01T00:00:00</Startdatum>
+    <Enddatum>2024-09-30T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>6</ID>
+    <Name>Java</Name>
+    <Beschreibung>Einstieg in OOP mit Java</Beschreibung>
+    <Semester>SOSE24</Semester>
+    <Startdatum>2024-04-01T00:00:00</Startdatum>
+    <Enddatum>2024-09-30T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>7</ID>
+    <Name>Python</Name>
+    <Beschreibung>Einstieg in funktionale Programmierung mit Python</Beschreibung>
+    <Semester>SOSE24</Semester>
+    <Startdatum>2024-04-01T00:00:00</Startdatum>
+    <Enddatum>2024-09-30T00:00:00</Enddatum>
+  </Kurs>
+  <Kurs>
+    <ID>8</ID>
+    <Name>JavaScript</Name>
+    <Beschreibung>Einstieg in Web-Programmierung mit JavaScript</Beschreibung>
+    <Semester>SOSE24</Semester>
+    <Startdatum>2024-04-01T00:00:00</Startdatum>
+    <Enddatum>2024-09-30T00:00:00</Enddatum>
+  </Kurs>
+</ArrayOfKurs>

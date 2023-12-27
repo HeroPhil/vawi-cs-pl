@@ -1,5 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
-
 public class Person : DataBean<Person>
 {
     public PersonTypEnum PersonTyp { get; set; }

@@ -44,8 +44,4 @@ abstract class AbstractController<T> where T : DataBean<T>, new()
         return this;
     }
 
-
-
-
-
 }

@@ -1,10 +1,29 @@
 public class Kurs : DataBean<Kurs>
 {
-    string Name { get; set; }
-    string Beschreibung { get; set; }
-    string Semester { get; set; }
-    DateTime Startdatum { get; set; }
-    DateTime Enddatum { get; set; }
+    public string Name { get; set; }
+    public string Beschreibung { get; set; }
+    public string Semester { get; set; }
+    public DateTime Startdatum { get; set; }
+    public DateTime Enddatum { get; set; }
+
+    public Kurs()
+    {
+        ID = -1;
+        Name = "";
+        Beschreibung = "";
+        Semester = "";
+        Startdatum = DateTime.Now;
+        Enddatum = DateTime.Now;
+    }
+
+    public Kurs(string name, string beschreibung, string semester, DateTime startdatum, DateTime enddatum)
+    {
+        Name = name;
+        Beschreibung = beschreibung;
+        Semester = semester;
+        Startdatum = startdatum;
+        Enddatum = enddatum;
+    }
 
     public override string GetHeader()
     {
