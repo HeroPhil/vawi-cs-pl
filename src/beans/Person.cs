@@ -2,7 +2,6 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Person : DataBean<Person>
 {
-    public int ID { get; set; }
     public PersonTypEnum PersonTyp { get; set; }
     public string Vorname { get; set; }
     public string Nachname { get; set; }

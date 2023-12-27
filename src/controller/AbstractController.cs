@@ -6,10 +6,7 @@ abstract class AbstractController<T> where T : DataBean<T>, new()
     public static string FieldDelimiter { get; } = "|";
     public static string SubFieldDelimiter { get; } = ":";
 
-    public int NextFreeId()
-    {
-        return _data.Select(item => item.ID).DefaultIfEmpty(0).Max() + 1;
-    }
+    public int NextFreeId => _data.Select(item => item.ID).DefaultIfEmpty(0).Max() + 1;
 
     protected List<T> _data { get; private set; }
 
@@ -21,7 +18,6 @@ abstract class AbstractController<T> where T : DataBean<T>, new()
 
     public AbstractController(string storagePath)
     {
-        _data = new List<T>();
         StoragePath = storagePath;
     }
 

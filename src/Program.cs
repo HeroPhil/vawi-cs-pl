@@ -105,10 +105,10 @@ class Program
             switch (token[0])
             {
                 case "person":
-                    PersonController.GetInstance().Add(CreateBeanWithUserInput<Person>(PersonController.GetInstance().NextFreeId()));
+                    PersonController.GetInstance().Add(CreateBeanWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
                     return;
                 case "kurs":
-                    KursController.GetInstance().Add(CreateBeanWithUserInput<Kurs>(KursController.GetInstance().NextFreeId()));
+                    KursController.GetInstance().Add(CreateBeanWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
                     return;
             }
         }
