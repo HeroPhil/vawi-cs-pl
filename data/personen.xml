@@ -2,47 +2,77 @@
 <ArrayOfPerson xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Person>
     <ID>1</ID>
+    <PersonTyp>Student</PersonTyp>
+    <Vorname>John</Vorname>
+    <Nachname>Doe</Nachname>
+    <Adresse>
+      <Strasse>Street</Strasse>
+      <Hausnummer>123</Hausnummer>
+      <PLZ>45678</PLZ>
+      <Ort>City</Ort>
+      <Land>Country</Land>
+    </Adresse>
+    <Geburtsdatum>1995-05-15T00:00:00</Geburtsdatum>
+    <Abschluss>BSc</Abschluss>
+  </Person>
+  <Person>
+    <ID>2</ID>
     <PersonTyp>Dozent</PersonTyp>
-    <Vorname>Ni</Vorname>
-    <Nachname>Pla</Nachname>
+    <Vorname>Emma</Vorname>
+    <Nachname>Smith</Nachname>
     <Adresse>
-      <Strasse>s</Strasse>
-      <Hausnummer>h</Hausnummer>
-      <PLZ>43122</PLZ>
-      <Ort>ort</Ort>
-      <Land>land</Land>
+      <Strasse>Another Street</Strasse>
+      <Hausnummer>456</Hausnummer>
+      <PLZ>78901</PLZ>
+      <Ort>Another City</Ort>
+      <Land>Another Country</Land>
     </Adresse>
-    <Geburtsdatum>2000-10-10T00:00:00</Geburtsdatum>
-    <Abschluss>bsc</Abschluss>
+    <Geburtsdatum>1980-12-31T00:00:00</Geburtsdatum>
+    <Abschluss>PhD</Abschluss>
   </Person>
   <Person>
-    <ID>1</ID>
+    <ID>3</ID>
     <PersonTyp>Student</PersonTyp>
-    <Vorname>Nicklas</Vorname>
-    <Nachname>Platz</Nachname>
+    <Vorname>Max</Vorname>
+    <Nachname>Mustermann</Nachname>
     <Adresse>
-      <Strasse>A</Strasse>
-      <Hausnummer>23</Hausnummer>
-      <PLZ>324</PLZ>
-      <Ort>hallo</Ort>
-      <Land>sadf</Land>
+      <Strasse>Yet Another Street</Strasse>
+      <Hausnummer>789</Hausnummer>
+      <PLZ>12345</PLZ>
+      <Ort>Yet Another City</Ort>
+      <Land>Yet Another Country</Land>
     </Adresse>
-    <Geburtsdatum>2000-01-01T00:00:00</Geburtsdatum>
-    <Abschluss>MSC</Abschluss>
+    <Geburtsdatum>1990-01-01T00:00:00</Geburtsdatum>
+    <Abschluss>MSc</Abschluss>
   </Person>
   <Person>
-    <ID>1</ID>
-    <PersonTyp>Student</PersonTyp>
-    <Vorname>Nicklas</Vorname>
-    <Nachname>Platz</Nachname>
+    <ID>4</ID>
+    <PersonTyp>Dozent</PersonTyp>
+    <Vorname>John</Vorname>
+    <Nachname>Smith</Nachname>
     <Adresse>
-      <Strasse>a</Strasse>
-      <Hausnummer>b</Hausnummer>
-      <PLZ>31232</PLZ>
-      <Ort>sg</Ort>
-      <Land>de</Land>
+      <Strasse>Yet Another Street</Strasse>
+      <Hausnummer>789</Hausnummer>
+      <PLZ>12345</PLZ>
+      <Ort>Yet Another City</Ort>
+      <Land>Yet Another Country</Land>
     </Adresse>
-    <Geburtsdatum>3212-12-23T00:00:00</Geburtsdatum>
-    <Abschluss>Msc</Abschluss>
+    <Geburtsdatum>1980-12-31T00:00:00</Geburtsdatum>
+    <Abschluss>PhD</Abschluss>
+  </Person>
+  <Person>
+    <ID>5</ID>
+    <PersonTyp>Student</PersonTyp>
+    <Vorname>Max</Vorname>
+    <Nachname>Mustermann</Nachname>
+    <Adresse>
+      <Strasse>Yet Another Street</Strasse>
+      <Hausnummer>789</Hausnummer>
+      <PLZ>12345</PLZ>
+      <Ort>Yet Another City</Ort>
+      <Land>Yet Another Country</Land>
+    </Adresse>
+    <Geburtsdatum>1990-01-01T00:00:00</Geburtsdatum>
+    <Abschluss>MSc</Abschluss>
   </Person>
 </ArrayOfPerson>
