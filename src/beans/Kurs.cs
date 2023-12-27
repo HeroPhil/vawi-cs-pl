@@ -1,4 +1,4 @@
-class Kurs : DataBean<Kurs>
+public class Kurs : DataBean<Kurs>
 {
     string Name { get; set; }
     string Beschreibung { get; set; }
@@ -8,7 +8,7 @@ class Kurs : DataBean<Kurs>
 
     public override string GetHeader()
     {
-        return new string[] { "ID", "Name", "Beschreibung", "Semester", "Startdatum", "Enddatum" }.Aggregate((a, b) => a + AbstractController<Kurs>.PrintFieldDelimiter + b);
+        return new string[] { "ID", "Name", "Beschreibung", "Semester", "Startdatum", "Enddatum" }.Aggregate((a, b) => a + AbstractController<Kurs>.FieldDelimiter + b);
     }
 
     public override string[] GetValues()
@@ -18,7 +18,7 @@ class Kurs : DataBean<Kurs>
 
     public override string ToString()
     {
-        return GetValues().Aggregate((a, b) => a + AbstractController<Kurs>.PrintFieldDelimiter + b);
+        return GetValues().Aggregate((a, b) => a + AbstractController<Kurs>.FieldDelimiter + b);
     }
 
     public override Kurs SetValues(params string[] values)

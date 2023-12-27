@@ -6,7 +6,7 @@ class PersonController : AbstractController<Person>
     {
         return instance ??= new PersonController();
     }
-    public PersonController() : base(Environment.CurrentDirectory + "/data/person.csv")
+    public PersonController() : base(Environment.CurrentDirectory + "/data/personen.xml")
     {
         Load();
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Data.Common;
+using System.Xml.Linq;
 
 class Program
 {
@@ -44,6 +45,10 @@ class Program
                     continue;
                 case "add":
                     Add(commandToken.Skip(1).ToArray());
+                    continue;
+                case "save":
+                    PersonController.GetInstance().Save();
+                    KursController.GetInstance().Save();
                     continue;
             }
 
@@ -100,10 +105,10 @@ class Program
             switch (token[0])
             {
                 case "person":
-                    PersonController.GetInstance().Add(CreateBeanWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
+                    PersonController.GetInstance().Add(CreateBeanWithUserInput<Person>(PersonController.GetInstance().NextFreeId()));
                     return;
                 case "kurs":
-                    KursController.GetInstance().Add(CreateBeanWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
+                    KursController.GetInstance().Add(CreateBeanWithUserInput<Kurs>(KursController.GetInstance().NextFreeId()));
                     return;
             }
         }
@@ -125,7 +130,7 @@ class Program
         };
 
         // get input
-        values.AddRange(bean.GetHeader().Split(AbstractController<T>.PrintFieldDelimiter).Skip(1).Select((field) =>
+        values.AddRange(bean.GetHeader().Split(AbstractController<T>.FieldDelimiter).Skip(1).Select((field) =>
         {
             Console.Write($"{field}: ");
             return Console.ReadLine();
@@ -134,7 +139,7 @@ class Program
         // confirm input
         Console.WriteLine($"Do you want to save the following {bean.GetType().Name}?");
         Console.WriteLine(bean.GetHeader());
-        Console.WriteLine(values.Aggregate((a, b) => a + AbstractController<T>.PrintFieldDelimiter + b));
+        Console.WriteLine(values.Aggregate((a, b) => a + AbstractController<T>.FieldDelimiter + b));
         Console.WriteLine("y/n");
         string? confirm = Console.ReadLine();
         if (confirm == null || confirm.Trim().ToLower() != "y")

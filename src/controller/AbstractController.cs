@@ -1,54 +1,37 @@
 
-using Microsoft.VisualBasic.FileIO;
+using System.Xml.Serialization;
 
 abstract class AbstractController<T> where T : DataBean<T>, new()
 {
-    public static string FileFieldDelimiter { get; } = ",";
-    public static string PrintFieldDelimiter { get; } = "|";
+    public static string FieldDelimiter { get; } = "|";
     public static string SubFieldDelimiter { get; } = ":";
 
-    protected List<T> _data { get; }
+    public int NextFreeId()
+    {
+        return _data.Select(item => item.ID).DefaultIfEmpty(0).Max() + 1;
+    }
+
+    protected List<T> _data { get; private set; }
 
     private string _storagePath { get; }
 
     protected bool _autoSave { get; } = true;
 
-    public int NextFreeId
-    {
-        get
-        {
-            return _data.Select(item => item.ID).DefaultIfEmpty(0).Max() + 1;
-        }
-    }
+    private XmlSerializer xmlSerializer { get; } = new XmlSerializer(typeof(List<T>));
 
     public AbstractController(string storagePath)
     {
         _data = new List<T>();
         _storagePath = storagePath;
-
-        if (!File.Exists(_storagePath))
-        {
-            File.Create(_storagePath);
-        }
     }
 
 
     public AbstractController<T> Load()
     {
         // Load data from file in _storagePath
-        using (var parser = new TextFieldParser(_storagePath))
+        using (var parser = new FileStream(_storagePath, FileMode.OpenOrCreate))
         {
-            parser.TextFieldType = FieldType.Delimited;
-            parser.SetDelimiters(",");
-            while (!parser.EndOfData)
-            {
-                // Process row
-                string[]? fields = parser.ReadFields();
-                if (fields != null)
-                {
-                    _data.Add(new T().SetValues(fields));
-                }
-            }
+            _data = (List<T>)xmlSerializer.Deserialize(parser);
         }
 
         return this;
@@ -59,10 +42,7 @@ abstract class AbstractController<T> where T : DataBean<T>, new()
         // Save data to file in _storagePath
         using (var writer = new StreamWriter(_storagePath))
         {
-            foreach (var item in _data)
-            {
-                writer.WriteLine(item.GetValues().Aggregate((a, b) => a + FileFieldDelimiter + b));
-            }
+            xmlSerializer.Serialize(writer, _data);
         }
 
         return this;

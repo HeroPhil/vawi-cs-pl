@@ -8,7 +8,7 @@ class KursController : AbstractController<Kurs>
         return instance ??= new KursController();
     }
 
-    public KursController() : base(Environment.CurrentDirectory + "/data/kurs.csv")
+    public KursController() : base(Environment.CurrentDirectory + "/data/kurse.xml")
     {
         Load();
     }
