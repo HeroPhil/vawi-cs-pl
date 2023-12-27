@@ -13,23 +13,23 @@ abstract class AbstractController<T> where T : DataBean<T>, new()
 
     protected List<T> _data { get; private set; }
 
-    private string _storagePath { get; }
+    protected bool AutoSave { get; } = true;
 
-    protected bool _autoSave { get; } = true;
+    private string StoragePath { get; }
 
     private XmlSerializer xmlSerializer { get; } = new XmlSerializer(typeof(List<T>));
 
     public AbstractController(string storagePath)
     {
         _data = new List<T>();
-        _storagePath = storagePath;
+        StoragePath = storagePath;
     }
 
 
     public AbstractController<T> Load()
     {
         // Load data from file in _storagePath
-        using (var parser = new FileStream(_storagePath, FileMode.OpenOrCreate))
+        using (var parser = new FileStream(StoragePath, FileMode.OpenOrCreate))
         {
             _data = (List<T>)xmlSerializer.Deserialize(parser);
         }
@@ -40,7 +40,7 @@ abstract class AbstractController<T> where T : DataBean<T>, new()
     public AbstractController<T> Save()
     {
         // Save data to file in _storagePath
-        using (var writer = new StreamWriter(_storagePath))
+        using (var writer = new StreamWriter(StoragePath))
         {
             xmlSerializer.Serialize(writer, _data);
         }

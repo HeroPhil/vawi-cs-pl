@@ -16,7 +16,7 @@ class KursController : AbstractController<Kurs>
     public KursController Add(Kurs kurs)
     {
         _data.Add(kurs);
-        if (_autoSave) Save();
+        if (AutoSave) Save();
         return this;
     }
 

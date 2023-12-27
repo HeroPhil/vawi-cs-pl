@@ -14,7 +14,7 @@ class PersonController : AbstractController<Person>
     public PersonController Add(Person person)
     {
         _data.Add(person);
-        if (_autoSave) Save();
+        if (AutoSave) Save();
         return this;
     }
 
