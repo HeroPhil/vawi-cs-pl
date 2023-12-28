@@ -118,7 +118,7 @@ class Program
         }
     }
 
-    static T CreateBeanWithUserInput<T>(int id) where T : DataBean<T>, new()
+    static T CreateBeanWithUserInput<T>(int id) where T : AbstractModel<T>, new()
     {
         // setup
         T bean = new T();

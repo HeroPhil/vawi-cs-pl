@@ -1,4 +1,4 @@
-public abstract class DataBean<T> {
+public abstract class AbstractModel<T> {
     public int ID { get; set; }
     abstract public T SetValues(params string[] values);
 

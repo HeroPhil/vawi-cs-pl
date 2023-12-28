@@ -1,7 +1,7 @@
 
 using System.Xml.Serialization;
 
-abstract class AbstractController<T> where T : DataBean<T>, new()
+public abstract class AbstractController<T> where T : AbstractModel<T>, new()
 {
     public static string FieldDelimiter { get; } = "|";
     public static string SubFieldDelimiter { get; } = ":";
