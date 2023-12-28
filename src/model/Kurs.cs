@@ -1,3 +1,5 @@
+using System.Data;
+
 public class Kurs : AbstractModel<Kurs>
 {
     public string Name { get; set; }
@@ -5,6 +7,7 @@ public class Kurs : AbstractModel<Kurs>
     public string Semester { get; set; }
     public DateTime Startdatum { get; set; }
     public DateTime Enddatum { get; set; }
+    public int DozentID { get; set; }
 
     public Kurs()
     {
@@ -14,25 +17,27 @@ public class Kurs : AbstractModel<Kurs>
         Semester = "";
         Startdatum = DateTime.Now;
         Enddatum = DateTime.Now;
+        DozentID = -1;
     }
 
-    public Kurs(string name, string beschreibung, string semester, DateTime startdatum, DateTime enddatum)
+    public Kurs(string name, string beschreibung, string semester, DateTime startdatum, DateTime enddatum, int dozentID)
     {
         Name = name;
         Beschreibung = beschreibung;
         Semester = semester;
         Startdatum = startdatum;
         Enddatum = enddatum;
+        DozentID = dozentID;
     }
 
     public override string GetHeader()
     {
-        return new string[] { "ID", "Name", "Beschreibung", "Semester", "Startdatum", "Enddatum" }.Aggregate((a, b) => a + AbstractController<Kurs>.FieldDelimiter + b);
+        return new string[] { "ID", "Name", "Beschreibung", "Semester", "Startdatum", "Enddatum", "DozentId"}.Aggregate((a, b) => a + AbstractController<Kurs>.FieldDelimiter + b);
     }
 
     public override string[] GetValues()
     {
-        return new string[] { ID.ToString(), Name, Beschreibung, Semester, Startdatum.ToString(), Enddatum.ToString() };
+        return new string[] { ID.ToString(), Name, Beschreibung, Semester, Startdatum.ToString(), Enddatum.ToString(), DozentID.ToString() };
     }
 
     public override string ToString()
@@ -48,6 +53,7 @@ public class Kurs : AbstractModel<Kurs>
         Semester = values[3];
         Startdatum = DateTime.Parse(values[4]);
         Enddatum = DateTime.Parse(values[5]);
+        DozentID = int.Parse(values[6]);
         return this;
     }
 }

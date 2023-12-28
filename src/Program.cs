@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using System.Data.Common;
+using System.Security.AccessControl;
 using System.Xml.Linq;
 
 class Program
@@ -15,6 +17,7 @@ class Program
     {
         PersonController.GetInstance();
         KursController.GetInstance();
+        TeilnahmeController.GetInstance();
     }
 
     static void Loop()
@@ -49,6 +52,9 @@ class Program
                 case "save":
                     PersonController.GetInstance().Save();
                     KursController.GetInstance().Save();
+                    continue;
+                case "assign":
+                    Assign(commandToken.Skip(1).ToArray());
                     continue;
             }
 
@@ -96,6 +102,7 @@ class Program
     {
         if (token.Length < 1)
         {
+            // TODO throw exception
             ShowHelp();
             return;
         }
@@ -114,6 +121,7 @@ class Program
         }
         catch (Exception e)
         {
+            // TODO throw exception
             Console.WriteLine(e.Message);
         }
     }
@@ -149,5 +157,45 @@ class Program
 
         // return final bean
         return bean.SetValues(values.ToArray());
+    }
+
+    static void Assign(string[] token)
+    {
+        if (token.Length < 2)
+        {
+            // TODO throw exception
+            ShowHelp();
+            return;
+        }
+
+        try
+        {
+            int personID = int.Parse(token[0]);
+            int kursID = int.Parse(token[1]);
+
+            Person person = PersonController.GetInstance().GetByID(personID);
+            if (person.PersonTyp != PersonTypEnum.Student)
+            {
+                throw new Exception("Only students can be assigned to a course!");
+            }
+
+            if (TeilnahmeController.GetInstance().GetByIDs(personID, kursID) != null)
+            {
+                throw new Exception($"The student with Id {personID} is already assigned to this course!");
+            }
+
+            TeilnahmeController.GetInstance().Add(new Teilnahme()
+            {
+                ID = TeilnahmeController.GetInstance().NextFreeId,
+                PersonID = personID,
+                KursID = kursID
+            });
+        }
+        catch (Exception e)
+        {
+            // TODO throw exception
+            Console.WriteLine(e.Message);
+        }
+
     }
 }

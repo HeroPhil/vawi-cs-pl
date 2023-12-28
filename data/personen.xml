@@ -75,4 +75,19 @@
     <Geburtsdatum>1990-01-01T00:00:00</Geburtsdatum>
     <Abschluss>MSc</Abschluss>
   </Person>
+  <Person>
+    <ID>6</ID>
+    <PersonTyp>Student</PersonTyp>
+    <Vorname>Lea</Vorname>
+    <Nachname>Nettelbeck</Nachname>
+    <Adresse>
+      <Strasse>Augustastrasse</Strasse>
+      <Hausnummer>85</Hausnummer>
+      <PLZ>42119</PLZ>
+      <Ort>Wuppertal</Ort>
+      <Land>Deutschland</Land>
+    </Adresse>
+    <Geburtsdatum>2000-10-10T00:00:00</Geburtsdatum>
+    <Abschluss>BEd</Abschluss>
+  </Person>
 </ArrayOfPerson>
