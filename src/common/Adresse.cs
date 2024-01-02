@@ -25,7 +25,7 @@ public class Adresse
     }
 
     public Adresse(string value) {
-        string[] values = value.Split(AbstractController<Person>.SubFieldDelimiter);
+        string[] values = value.Split(ChatUtil.SubFieldDelimiter);
         Strasse = values[0];
         Hausnummer = values[1];
         PLZ = values[2];
@@ -35,12 +35,12 @@ public class Adresse
 
     public override string ToString()
     {
-        return new string[] { Strasse, Hausnummer, PLZ, Ort, Land }.Aggregate((a, b) => a + AbstractController<Person>.SubFieldDelimiter + b);
+        return new string[] { Strasse, Hausnummer, PLZ, Ort, Land }.Aggregate((a, b) => a + ChatUtil.SubFieldDelimiter + b);
     }
 
     public string GetHeader()
     {
-        return new string[] {"Strasse", "Hausnummer", "PLZ", "Ort", "Land"}.Aggregate((a, b) => a + AbstractController<Person>.SubFieldDelimiter + b);
+        return new string[] {"Strasse", "Hausnummer", "PLZ", "Ort", "Land"}.Aggregate((a, b) => a + ChatUtil.SubFieldDelimiter + b);
     }   
 
 }

@@ -3,9 +3,6 @@ using System.Xml.Serialization;
 
 public abstract class AbstractController<T> where T : AbstractModel<T>, new()
 {
-    public static string FieldDelimiter { get; } = "|";
-    public static string SubFieldDelimiter { get; } = ":";
-
     protected static string baseStoragePath { get; } = "/data/";
 
     public int NextFreeId => _data.Select(item => item.ID).DefaultIfEmpty(0).Max() + 1;
@@ -62,13 +59,28 @@ public abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    public AbstractController<T> Remove(T item)
+    {
+        _data.Remove(item);
+        if (AutoSave) Save();
+        return this;
+    }
+
+    public AbstractController<T> Remove(int id)
+    {
+        _data.Remove(GetByID(id));
+        if (AutoSave) Save();
+        return this;
+    }
+
+    public T[] GetAll()
+    {
+        return _data.ToArray();
+    }
+
     public void PrintAll()
     {
-        Console.WriteLine(new T().GetHeader()); // static not possible with interface
-        foreach (T item in _data)
-        {
-            Console.WriteLine(item.ToString());
-        }
+        Print(GetAll());
     }
 
     public T GetByID(int id)
@@ -80,6 +92,14 @@ public abstract class AbstractController<T> where T : AbstractModel<T>, new()
         if (queryResult.Count() == 0) throw new Exception($"No {typeof(T).Name} with ID {id} found!");
 
         return queryResult.First();
+    }
+
+    protected void Print(T[] values) {
+        Console.WriteLine(new T().GetHeader()); // static not possible with interface
+        foreach (T item in values)
+        {
+            Console.WriteLine(item.ToString());
+        }
     }
 
 }

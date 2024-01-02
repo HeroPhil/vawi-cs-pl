@@ -44,6 +44,6 @@ public class Person : AbstractModel<Person>
     }
     public override string GetHeader()
     {
-        return new string[] {"ID", "PersonTyp", "Vorname", "Nachname", Adresse.GetHeader(), "Geburtsdatum", "Abschluss"}.Aggregate((a, b) => a + AbstractController<Person>.FieldDelimiter + b);
+        return new string[] {"ID", "PersonTyp", "Vorname", "Nachname", Adresse.GetHeader(), "Geburtsdatum", "Abschluss"}.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
     }
 }

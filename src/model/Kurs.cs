@@ -32,7 +32,7 @@ public class Kurs : AbstractModel<Kurs>
 
     public override string GetHeader()
     {
-        return new string[] { "ID", "Name", "Beschreibung", "Semester", "Startdatum", "Enddatum", "DozentId"}.Aggregate((a, b) => a + AbstractController<Kurs>.FieldDelimiter + b);
+        return new string[] { "ID", "Name", "Beschreibung", "Semester", "Startdatum", "Enddatum", "DozentId"}.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
     }
 
     public override string[] GetValues()

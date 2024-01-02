@@ -41,20 +41,24 @@ class Program
                 continue;
             }
 
+            string[] token = commandToken.Skip(1).ToArray();
             switch (commandToken[0].ToLower())
             {
                 case "ls":
-                    ListAll(commandToken.Skip(1).ToArray());
+                    ListAll(token);
                     continue;
                 case "add":
-                    Add(commandToken.Skip(1).ToArray());
+                    Add(token);
                     continue;
                 case "save":
                     PersonController.GetInstance().Save();
                     KursController.GetInstance().Save();
                     continue;
                 case "assign":
-                    Assign(commandToken.Skip(1).ToArray());
+                    Assign(token);
+                    continue;
+                case "dismiss":
+                    Dismiss(token);
                     continue;
             }
 
@@ -83,19 +87,36 @@ class Program
             return;
         }
 
-        foreach (var item in token)
+        if (token.Length == 2)
         {
-            switch (item)
-            {
-                case "person":
-                    PersonController.GetInstance().PrintAll();
-                    return;
-                case "kurs":
-                    KursController.GetInstance().PrintAll();
-                    return;
-            }
+            ListFilter(token);
+            return;
         }
 
+        switch (token[0])
+        {
+            case "person":
+                PersonController.GetInstance().PrintAll();
+                return;
+            case "kurs":
+                KursController.GetInstance().PrintAll();
+                return;
+        }
+
+    }
+
+    static void ListFilter(string[] token)
+    {
+        int id = int.Parse(token[1]);
+        switch (token[0])
+        {
+            case "person":
+                TeilnahmeController.GetInstance().PrintAllForPerson(id);
+                return;
+            case "kurs":
+                TeilnahmeController.GetInstance().PrintAllForKurs(id);
+                return;
+        }
     }
 
     static void Add(string[] token)
@@ -138,19 +159,19 @@ class Program
         };
 
         // get input
-        values.AddRange(bean.GetHeader().Split(AbstractController<T>.FieldDelimiter).Skip(1).Select((field) =>
+        values.AddRange(bean.GetHeader().Split(ChatUtil.FieldDelimiter).Skip(1).Select((field) =>
         {
             Console.Write($"{field}: ");
             return Console.ReadLine();
         })!);
 
         // confirm input
-        Console.WriteLine($"Do you want to save the following {bean.GetType().Name}?");
-        Console.WriteLine(bean.GetHeader());
-        Console.WriteLine(values.Aggregate((a, b) => a + AbstractController<T>.FieldDelimiter + b));
-        Console.WriteLine("y/n");
-        string? confirm = Console.ReadLine();
-        if (confirm == null || confirm.Trim().ToLower() != "y")
+
+        if (ChatUtil.Confirm(
+            $"Do you want to save the following {bean.GetType().Name}?\n" +
+            $"{bean.GetHeader()}\n" +
+            $"{values.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}"
+            ))
         {
             throw new Exception("Adding Aborted!");
         }
@@ -196,6 +217,43 @@ class Program
             // TODO throw exception
             Console.WriteLine(e.Message);
         }
+    }
 
+    static void Dismiss(string[] token)
+    {
+        if (token.Length < 2)
+        {
+            // TODO throw exception
+            ShowHelp();
+            return;
+        }
+
+        try
+        {
+            int personID = int.Parse(token[0]);
+            int kursID = int.Parse(token[1]);
+
+            Person person = PersonController.GetInstance().GetByID(personID);
+            if (person.PersonTyp != PersonTypEnum.Student)
+            {
+                throw new Exception("Only students can be dismissed from a course");
+            }
+
+            Kurs kurs = KursController.GetInstance().GetByID(kursID);
+
+            Teilnahme? teilnahme = TeilnahmeController.GetInstance().GetByIDs(personID, kursID) ?? throw new Exception($"The student with Id {personID} is not assigned to this course!");
+
+            if (!ChatUtil.Confirm($"Do you want to dismiss the student \"{person.Vorname} {person.Nachname}\" from course \"{kurs.Name}\" ({kurs.Semester})?{(teilnahme.Note == null ? "" : $"\n\tAll grades will be deleted!")}"))
+            {
+                throw new Exception("Dismissal aborted!");
+            }
+
+            TeilnahmeController.GetInstance().Remove(teilnahme);
+        }
+        catch (Exception e)
+        {
+            // TODO throw exception
+            Console.WriteLine(e.Message);
+        }
     }
 }

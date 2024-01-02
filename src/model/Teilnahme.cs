@@ -19,12 +19,12 @@ public class Teilnahme : AbstractModel<Teilnahme>
 
     public override string GetHeader()
     {
-        return new string[] { "PersonID", "KursID", "Note"}.Aggregate((a, b) => a + AbstractController<Teilnahme>.FieldDelimiter + b);
+        return new string[] { "PersonID", "KursID", "Note"}.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
     }
 
     public override string[] GetValues()
     {
-        return new string[] { PersonID.ToString(), KursID.ToString(), Note.ToString() ?? "" };
+        return new string[] { PersonID.ToString(), KursID.ToString(), Note.ToString() ?? "-" };
     }
     public override Teilnahme SetValues(params string[] values)
     {
