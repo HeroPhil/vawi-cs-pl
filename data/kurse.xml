@@ -7,6 +7,7 @@
     <Semester>WISE23/24</Semester>
     <Startdatum>2023-10-01T00:00:00</Startdatum>
     <Enddatum>2024-03-31T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>2</ID>
@@ -15,6 +16,7 @@
     <Semester>WISE23/24</Semester>
     <Startdatum>2023-10-01T00:00:00</Startdatum>
     <Enddatum>2024-03-31T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>3</ID>
@@ -23,6 +25,7 @@
     <Semester>WISE23/24</Semester>
     <Startdatum>2023-10-01T00:00:00</Startdatum>
     <Enddatum>2024-03-31T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>4</ID>
@@ -31,6 +34,7 @@
     <Semester>WISE23/24</Semester>
     <Startdatum>2023-10-01T00:00:00</Startdatum>
     <Enddatum>2024-03-31T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>5</ID>
@@ -39,6 +43,7 @@
     <Semester>SOSE24</Semester>
     <Startdatum>2024-04-01T00:00:00</Startdatum>
     <Enddatum>2024-09-30T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>6</ID>
@@ -47,6 +52,7 @@
     <Semester>SOSE24</Semester>
     <Startdatum>2024-04-01T00:00:00</Startdatum>
     <Enddatum>2024-09-30T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>7</ID>
@@ -55,6 +61,7 @@
     <Semester>SOSE24</Semester>
     <Startdatum>2024-04-01T00:00:00</Startdatum>
     <Enddatum>2024-09-30T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
   <Kurs>
     <ID>8</ID>
@@ -63,5 +70,6 @@
     <Semester>SOSE24</Semester>
     <Startdatum>2024-04-01T00:00:00</Startdatum>
     <Enddatum>2024-09-30T00:00:00</Enddatum>
+    <DozentID>-1</DozentID>
   </Kurs>
 </ArrayOfKurs>
