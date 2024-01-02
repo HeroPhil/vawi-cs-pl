@@ -90,4 +90,19 @@
     <Geburtsdatum>2000-10-10T00:00:00</Geburtsdatum>
     <Abschluss>BEd</Abschluss>
   </Person>
+  <Person>
+    <ID>7</ID>
+    <PersonTyp>Student</PersonTyp>
+    <Vorname>Sandy</Vorname>
+    <Nachname>Herold</Nachname>
+    <Adresse>
+      <Strasse>Koelnerstr</Strasse>
+      <Hausnummer>13a</Hausnummer>
+      <PLZ>42699</PLZ>
+      <Ort>Haan</Ort>
+      <Land>De</Land>
+    </Adresse>
+    <Geburtsdatum>1970-10-20T00:00:00</Geburtsdatum>
+    <Abschluss>BSc</Abschluss>
+  </Person>
 </ArrayOfPerson>

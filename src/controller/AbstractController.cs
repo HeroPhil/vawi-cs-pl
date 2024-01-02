@@ -73,6 +73,14 @@ public abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    public AbstractController<T> Update(int id, Action<T> updateFunction)
+    {
+        // This ensures that the item exists and is part of the data list. Object is safely mutated.
+        updateFunction(GetByID(id)); 
+        if (AutoSave) Save();
+        return this;
+    }
+
     public T[] GetAll()
     {
         return _data.ToArray();

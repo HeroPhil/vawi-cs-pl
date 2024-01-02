@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using System.Data;
 using System.Data.Common;
 using System.Security.AccessControl;
 using System.Xml.Linq;
@@ -48,6 +49,9 @@ class Program
                     continue;
                 case "add":
                     Add(token);
+                    continue;
+                case "update":
+                    Update(token);
                     continue;
                 case "save":
                     PersonController.GetInstance().Save();
@@ -136,10 +140,10 @@ class Program
             switch (token[0])
             {
                 case "person":
-                    PersonController.GetInstance().Add(CreateBeanWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
+                    PersonController.GetInstance().Add(CreateModelWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
                     return;
                 case "kurs":
-                    KursController.GetInstance().Add(CreateBeanWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
+                    KursController.GetInstance().Add(CreateModelWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
                     return;
             }
         }
@@ -150,37 +154,63 @@ class Program
         }
     }
 
-    static T CreateBeanWithUserInput<T>(int id) where T : AbstractModel<T>, new()
+    static void Update(string[] token)
+    {
+        if (token.Length != 2)
+        {
+            ShowHelp();
+            return;
+        }
+
+        int id = int.Parse(token[1]);
+        switch (token[0])
+        {
+            case "person":
+                PersonController.GetInstance().Update(id, (Person person) => UpdateModelWithUserInput(person));
+                return;
+            case "kurs":
+                KursController.GetInstance().Update(id, (Kurs kurs) => UpdateModelWithUserInput(kurs));
+                return;
+        }
+    }
+
+    static T CreateModelWithUserInput<T>(int id) where T : AbstractModel<T>, new()
+    {
+        T model = new T();
+        model.ID = id;
+        return UpdateModelWithUserInput(model);
+    }
+
+    static T UpdateModelWithUserInput<T>(T model) where T : AbstractModel<T>, new()
     {
         // setup
-        T bean = new T();
-        Console.WriteLine($"The following details are required for a new {bean.GetType().Name}:");
-        Console.WriteLine(bean.GetHeader());
-        List<string> values = new List<string>
-        {
-            id.ToString()
-        };
+        Console.WriteLine($"The following details are required for a {model.GetType().Name}:");
+        string[] header = model.GetHeader().Split(ChatUtil.FieldDelimiter);
+        string[] headerWithoutId = header.Skip(1).ToArray();
+        Console.WriteLine(headerWithoutId.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b));
 
-        // get input
-        values.AddRange(bean.GetHeader().Split(ChatUtil.FieldDelimiter).Skip(1).Select((field) =>
+        List<string> values = model.GetValues().ToList();
+
+        // update values
+        for (int i = 1; i < header.Count(); i++) // skip id
         {
-            Console.Write($"{field}: ");
-            return Console.ReadLine();
-        })!);
+            string currentValue = values[i];
+            string newValue = ChatUtil.GetInlineInput($"{header[i]} ({currentValue})");
+            values[i] = newValue != "" ? newValue : currentValue;
+        }
 
         // confirm input
-
-        if (ChatUtil.Confirm(
-            $"Do you want to save the following {bean.GetType().Name}?\n" +
-            $"{bean.GetHeader()}\n" +
+        if (!ChatUtil.Confirm(
+            $"Do you want to save the following {model.GetType().Name}?\n" +
+            $"{header.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}\n" +
             $"{values.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}"
             ))
         {
             throw new Exception("Adding Aborted!");
         }
 
-        // return final bean
-        return bean.SetValues(values.ToArray());
+        // return final model
+        return model.SetValues(values.ToArray());
     }
 
     static void Assign(string[] token)
@@ -327,6 +357,7 @@ class Program
             throw new Exception("Grading aborted!");
         }
 
-        teilnahme.Note = note;
+        TeilnahmeController.GetInstance().Update(teilnahme.ID, (Teilnahme teilnahme) => teilnahme.Note = note);
     }
+
 }
