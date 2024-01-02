@@ -8,7 +8,6 @@ class Program
 {
     static void Main()
     {
-
         init();
         Loop();
     }
@@ -53,12 +52,16 @@ class Program
                 case "save":
                     PersonController.GetInstance().Save();
                     KursController.GetInstance().Save();
+                    TeilnahmeController.GetInstance().Save();
                     continue;
                 case "assign":
                     Assign(token);
                     continue;
                 case "dismiss":
                     Dismiss(token);
+                    continue;
+                case "grade":
+                    Grade(token);
                     continue;
             }
 
@@ -255,5 +258,75 @@ class Program
             // TODO throw exception
             Console.WriteLine(e.Message);
         }
+    }
+
+    static void Grade(string[] token)
+    {
+        if (token.Length < 2)
+        {
+            // TODO throw exception
+            ShowHelp();
+            return;
+        }
+
+        if (token.Length == 3)
+        {
+            // directly grade one student in one course
+            GradeStudentInCourse(int.Parse(token[0]), int.Parse(token[1]), float.Parse(token[2]));
+            return;
+        }
+
+        int id = int.Parse(token[1]);
+        Teilnahme[]? teilnahmen;
+        switch (token[0])
+        {
+            // grade all students in one course
+            case "kurs":
+                teilnahmen = TeilnahmeController.GetInstance().GetAllForKurs(id);
+                break;
+            // grade one student in all courses
+            case "student":
+                teilnahmen = TeilnahmeController.GetInstance().GetAllForPerson(id);
+                break;
+            // grade one student in one course
+            default:
+                GradeStudentInCourse(int.Parse(token[0]), id);
+                return;
+        }
+
+        foreach (Teilnahme teilnahme in teilnahmen)
+        {
+            GradeStudentInCourse(teilnahme.PersonID, teilnahme.KursID);
+        }
+    }
+
+    private static void GradeStudentInCourse(int personID, int kursID)
+    {
+        Person person = PersonController.GetInstance().GetByID(personID);
+        Kurs kurs = KursController.GetInstance().GetByID(kursID);
+
+        float note = float.Parse(ChatUtil.GetInput($"Enter grade for student \"{person.Vorname} {person.Nachname}\" in course \"{kurs.Name}\" ({kurs.Semester})"));
+
+        GradeStudentInCourse(personID, kursID, note);
+    }
+
+    private static void GradeStudentInCourse(int personID, int kursID, float note)
+    {
+        Person person = PersonController.GetInstance().GetByID(personID);
+        if (person.PersonTyp != PersonTypEnum.Student)
+        {
+            throw new Exception("Only students can be graded!");
+        }
+
+        Kurs kurs = KursController.GetInstance().GetByID(kursID);
+
+        Teilnahme? teilnahme = TeilnahmeController.GetInstance().GetByIDs(personID, kursID) ?? throw new Exception($"The student with Id {personID} is not assigned to this course!");
+
+        if (teilnahme.Note != null && !ChatUtil.Confirm($"The student \"{person.Vorname} {person.Nachname}\" already has the grade {teilnahme.Note} for course \"{kurs.Name}\" ({kurs.Semester})!\nDo you want to overwrite the grade?"))
+        {
+            throw new Exception("Grading aborted!");
+        }
+
+        teilnahme.Note = note;
     }
 }

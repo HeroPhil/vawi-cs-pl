@@ -4,6 +4,24 @@
     <ID>1</ID>
     <PersonID>6</PersonID>
     <KursID>2</KursID>
+    <Note>4</Note>
+  </Teilnahme>
+  <Teilnahme>
+    <ID>2</ID>
+    <PersonID>1</PersonID>
+    <KursID>1</KursID>
+    <Note>2.1</Note>
+  </Teilnahme>
+  <Teilnahme>
+    <ID>3</ID>
+    <PersonID>3</PersonID>
+    <KursID>1</KursID>
+    <Note xsi:nil="true" />
+  </Teilnahme>
+  <Teilnahme>
+    <ID>4</ID>
+    <PersonID>1</PersonID>
+    <KursID>2</KursID>
     <Note xsi:nil="true" />
   </Teilnahme>
 </ArrayOfTeilnahme>
