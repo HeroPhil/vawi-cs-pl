@@ -35,7 +35,7 @@ public abstract class AbstractController<T> where T : AbstractModel<T>, new()
         // Load data from file in _storagePath
         using (var parser = new FileStream(StoragePath, FileMode.Open))
         {
-            _data = (List<T>)xmlSerializer.Deserialize(parser);
+            _data = (List<T>)(xmlSerializer.Deserialize(parser) ?? new List<T>());
         }
 
         return this;
