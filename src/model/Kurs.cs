@@ -40,11 +40,6 @@ public class Kurs : AbstractModel<Kurs>
         return new string[] { ID.ToString(), Name, Beschreibung, Semester, Startdatum.ToString(), Enddatum.ToString(), DozentID.ToString() };
     }
 
-    public override string ToString()
-    {
-        return GetValues().Aggregate((a, b) => a + AbstractController<Kurs>.FieldDelimiter + b);
-    }
-
     public override Kurs SetValues(params string[] values)
     {
         ID = int.Parse(values[0]);

@@ -42,12 +42,6 @@ public class Person : AbstractModel<Person>
     {
         return new string[] { ID.ToString(), PersonTyp.ToString(), Vorname, Nachname, Adresse.ToString(), Geburtsdatum.ToString(), Abschluss };
     }
-
-    public override string ToString()
-    {
-        return GetValues().Aggregate((a, b) => a + AbstractController<Person>.FieldDelimiter + b);
-    }
-
     public override string GetHeader()
     {
         return new string[] {"ID", "PersonTyp", "Vorname", "Nachname", Adresse.GetHeader(), "Geburtsdatum", "Abschluss"}.Aggregate((a, b) => a + AbstractController<Person>.FieldDelimiter + b);

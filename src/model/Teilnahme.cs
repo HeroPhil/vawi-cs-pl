@@ -24,14 +24,8 @@ public class Teilnahme : AbstractModel<Teilnahme>
 
     public override string[] GetValues()
     {
-        return new string[] { PersonID.ToString(), KursID.ToString(), Note.ToString() };
+        return new string[] { PersonID.ToString(), KursID.ToString(), Note.ToString() ?? "" };
     }
-
-    public override string ToString()
-    {
-        return GetValues().Aggregate((a, b) => a + AbstractController<Teilnahme>.FieldDelimiter + b);
-    }
-
     public override Teilnahme SetValues(params string[] values)
     {
         PersonID = int.Parse(values[0]);
