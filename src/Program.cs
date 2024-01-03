@@ -9,11 +9,11 @@ class Program
 {
     static void Main()
     {
-        init();
+        Init();
         Loop();
     }
 
-    static void init()
+    static void Init()
     {
         PersonController.GetInstance();
         KursController.GetInstance();
@@ -24,78 +24,79 @@ class Program
     {
         while (true)
         {
-            Console.WriteLine("Enter a command:");
-            string? command = Console.ReadLine();
-
-            if (command == null || command.Trim() == "")
+            try
             {
-                ShowHelp();
+                string raw = ChatUtil.GetInlineInput("Enter command");
+                string[] commandToken = raw.Trim().Split(' ');
+
+                if (commandToken.Length == 0)
+                {
+                    ChatUtil.PrintHelp();
+                    continue;
+                }
+
+                string command = commandToken[0].ToLower();
+                string[] parameters = commandToken.Skip(1).ToArray();
+
+                switch (command)
+                {
+                    case "ls":
+                        ListAll(parameters);
+                        continue;
+                    case "add":
+                        Add(parameters);
+                        continue;
+                    case "update":
+                        Update(parameters);
+                        continue;
+                    case "rm":
+                        Remove(parameters);
+                        continue;
+                    case "save":
+                        PersonController.GetInstance().Save();
+                        KursController.GetInstance().Save();
+                        TeilnahmeController.GetInstance().Save();
+                        continue;
+                    case "assign":
+                        Assign(parameters);
+                        continue;
+                    case "dismiss":
+                        Dismiss(parameters);
+                        continue;
+                    case "grade":
+                        Grade(parameters);
+                        continue;
+                    case "exit":
+                        Console.WriteLine("Bye!");
+                        break;
+                    default:
+                        Console.WriteLine($"Unknown command \"{command}\"!");
+                        ChatUtil.PrintHelp();
+                        continue;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Some Error Occurred:");
+                Console.WriteLine(e.Message);
                 continue;
             }
-
-            string[] commandToken = command.Trim().Split(' ');
-
-            if (commandToken.Length == 0)
+            finally
             {
-                ShowHelp();
-                continue;
+                Console.WriteLine(); // empty line
             }
-
-            string[] token = commandToken.Skip(1).ToArray();
-            switch (commandToken[0].ToLower())
-            {
-                case "ls":
-                    ListAll(token);
-                    continue;
-                case "add":
-                    Add(token);
-                    continue;
-                case "update":
-                    Update(token);
-                    continue;
-                case "rm":
-                    Remove(token);
-                    continue;
-                case "save":
-                    PersonController.GetInstance().Save();
-                    KursController.GetInstance().Save();
-                    TeilnahmeController.GetInstance().Save();
-                    continue;
-                case "assign":
-                    Assign(token);
-                    continue;
-                case "dismiss":
-                    Dismiss(token);
-                    continue;
-                case "grade":
-                    Grade(token);
-                    continue;
-            }
-
-
-            if (command == "exit")
-            {
-                Console.WriteLine("Bye!");
-                break; // Exit the loop if the command is "exit"
-            }
-
-            ShowHelp();
         }
     }
 
 
-    static void ShowHelp()
-    {
-        Console.WriteLine("Help!");
-    }
 
     static void ListAll(string[] token)
     {
 
-        if (token.Length < 1)
+        if (token.Length < 1 || token.Length > 2)
         {
-            ShowHelp();
-            return;
+            ChatUtil.PrintLsHelp();
+            throw new Exception("Invalid Syntax. Expecting at least one parameter");
         }
 
         if (token.Length == 2)
@@ -112,6 +113,9 @@ class Program
             case "kurs":
                 KursController.GetInstance().PrintAll();
                 return;
+            default:
+                ChatUtil.PrintLsHelp();
+                throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
 
     }
@@ -127,34 +131,31 @@ class Program
             case "kurs":
                 TeilnahmeController.GetInstance().PrintAllForKurs(id);
                 return;
+            default:
+                ChatUtil.PrintLsHelp();
+                throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
     }
 
     static void Add(string[] token)
     {
-        if (token.Length < 1)
+        if (token.Length != 1)
         {
-            // TODO throw exception
-            ShowHelp();
-            return;
+            ChatUtil.PrintAddHelp();
+            throw new Exception("Invalid Syntax. Expecting exactly one parameter");
         }
 
-        try
+        switch (token[0])
         {
-            switch (token[0])
-            {
-                case "person":
-                    PersonController.GetInstance().Add(CreateModelWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
-                    return;
-                case "kurs":
-                    KursController.GetInstance().Add(CreateModelWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
-                    return;
-            }
-        }
-        catch (Exception e)
-        {
-            // TODO throw exception
-            Console.WriteLine(e.Message);
+            case "person":
+                PersonController.GetInstance().Add(CreateModelWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
+                return;
+            case "kurs":
+                KursController.GetInstance().Add(CreateModelWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
+                return;
+            default:
+                ChatUtil.PrintAddHelp();
+                throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
     }
 
@@ -162,8 +163,8 @@ class Program
     {
         if (token.Length != 2)
         {
-            ShowHelp();
-            return;
+            ChatUtil.PrintUpdateHelp();
+            throw new Exception("Invalid Syntax. Expecting exactly two parameters");
         }
 
         int id = int.Parse(token[1]);
@@ -175,13 +176,18 @@ class Program
             case "kurs":
                 KursController.GetInstance().Update(id, (Kurs kurs) => UpdateModelWithUserInput(kurs));
                 return;
+            default:
+                ChatUtil.PrintUpdateHelp();
+                throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
     }
 
     static T CreateModelWithUserInput<T>(int id) where T : AbstractModel<T>, new()
     {
-        T model = new T();
-        model.ID = id;
+        T model = new T
+        {
+            ID = id
+        };
         return UpdateModelWithUserInput(model);
     }
 
@@ -210,7 +216,7 @@ class Program
             $"{values.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}"
             ))
         {
-            throw new Exception("Adding Aborted!");
+            throw new Exception("Action Aborted!");
         }
 
         // return final model
@@ -221,8 +227,8 @@ class Program
     {
         if (token.Length != 2)
         {
-            ShowHelp();
-            return;
+            ChatUtil.PrintRemoveHelp();
+            throw new Exception("Invalid Syntax. Expecting exactly two parameters");
         }
 
         int id = int.Parse(token[1]);
@@ -249,88 +255,73 @@ class Program
 
     static void Assign(string[] token)
     {
-        if (token.Length < 2)
+        if (token.Length != 2)
         {
-            // TODO throw exception
-            ShowHelp();
-            return;
+            ChatUtil.PrintAssignHelp();
+            throw new Exception("Invalid Syntax. Expecting exactly two parameters");
         }
 
-        try
+
+        int personID = int.Parse(token[0]);
+        int kursID = int.Parse(token[1]);
+
+        Person person = PersonController.GetInstance().GetByID(personID);
+        if (person.PersonTyp != PersonTypEnum.Student)
         {
-            int personID = int.Parse(token[0]);
-            int kursID = int.Parse(token[1]);
-
-            Person person = PersonController.GetInstance().GetByID(personID);
-            if (person.PersonTyp != PersonTypEnum.Student)
-            {
-                throw new Exception("Only students can be assigned to a course!");
-            }
-
-            if (TeilnahmeController.GetInstance().GetByIDs(personID, kursID) != null)
-            {
-                throw new Exception($"The student with Id {personID} is already assigned to this course!");
-            }
-
-            TeilnahmeController.GetInstance().Add(new Teilnahme()
-            {
-                ID = TeilnahmeController.GetInstance().NextFreeId,
-                PersonID = personID,
-                KursID = kursID
-            });
+            throw new Exception("Only students can be assigned to a course!");
         }
-        catch (Exception e)
+
+        if (TeilnahmeController.GetInstance().GetByIDs(personID, kursID) != null)
         {
-            // TODO throw exception
-            Console.WriteLine(e.Message);
+            throw new Exception($"The student with Id {personID} is already assigned to this course!");
         }
+
+        TeilnahmeController.GetInstance().Add(new Teilnahme()
+        {
+            ID = TeilnahmeController.GetInstance().NextFreeId,
+            PersonID = personID,
+            KursID = kursID
+        });
+
     }
 
     static void Dismiss(string[] token)
     {
-        if (token.Length < 2)
+        if (token.Length != 2)
         {
-            // TODO throw exception
-            ShowHelp();
-            return;
+            ChatUtil.PrintDismissHelp();
+            throw new Exception("Invalid Syntax. Expecting exactly two parameters");
         }
 
-        try
+
+        int personID = int.Parse(token[0]);
+        int kursID = int.Parse(token[1]);
+
+        Person person = PersonController.GetInstance().GetByID(personID);
+        if (person.PersonTyp != PersonTypEnum.Student)
         {
-            int personID = int.Parse(token[0]);
-            int kursID = int.Parse(token[1]);
-
-            Person person = PersonController.GetInstance().GetByID(personID);
-            if (person.PersonTyp != PersonTypEnum.Student)
-            {
-                throw new Exception("Only students can be dismissed from a course");
-            }
-
-            Kurs kurs = KursController.GetInstance().GetByID(kursID);
-
-            Teilnahme? teilnahme = TeilnahmeController.GetInstance().GetByIDs(personID, kursID) ?? throw new Exception($"The student with Id {personID} is not assigned to this course!");
-
-            if (!ChatUtil.Confirm($"Do you want to dismiss the student \"{person.Vorname} {person.Nachname}\" from course \"{kurs.Name}\" ({kurs.Semester})?{(teilnahme.Note == null ? "" : $"\n\tAll grades will be deleted!")}"))
-            {
-                throw new Exception("Dismissal aborted!");
-            }
-
-            TeilnahmeController.GetInstance().Remove(teilnahme);
+            throw new Exception("Only students can be dismissed from a course");
         }
-        catch (Exception e)
+
+        Kurs kurs = KursController.GetInstance().GetByID(kursID);
+
+        Teilnahme? teilnahme = TeilnahmeController.GetInstance().GetByIDs(personID, kursID) ?? throw new Exception($"The student with Id {personID} is not assigned to this course!");
+
+        if (!ChatUtil.Confirm($"Do you want to dismiss the student \"{person.Vorname} {person.Nachname}\" from course \"{kurs.Name}\" ({kurs.Semester})?{(teilnahme.Note == null ? "" : $"\n\tAll grades will be deleted!")}"))
         {
-            // TODO throw exception
-            Console.WriteLine(e.Message);
+            throw new Exception("Dismissal aborted!");
         }
+
+        TeilnahmeController.GetInstance().Remove(teilnahme);
+
     }
 
     static void Grade(string[] token)
     {
         if (token.Length < 2)
         {
-            // TODO throw exception
-            ShowHelp();
-            return;
+            ChatUtil.PrintGradeHelp();
+            throw new Exception("Invalid Syntax. Expecting at least two parameters");
         }
 
         if (token.Length == 3)
