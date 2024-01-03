@@ -53,6 +53,9 @@ class Program
                 case "update":
                     Update(token);
                     continue;
+                case "rm":
+                    Remove(token);
+                    continue;
                 case "save":
                     PersonController.GetInstance().Save();
                     KursController.GetInstance().Save();
@@ -79,6 +82,7 @@ class Program
             ShowHelp();
         }
     }
+
 
     static void ShowHelp()
     {
@@ -211,6 +215,36 @@ class Program
 
         // return final model
         return model.SetValues(values.ToArray());
+    }
+
+    private static void Remove(string[] token)
+    {
+        if (token.Length != 2)
+        {
+            ShowHelp();
+            return;
+        }
+
+        int id = int.Parse(token[1]);
+        switch (token[0])
+        {
+            case "person":
+                if (TeilnahmeController.GetInstance().GetAllForPerson(id).Length > 0)
+                {
+                    throw new Exception("Cannot remove a person that is assigned to a course!");
+                }
+                PersonController.GetInstance().Remove(id);
+                return;
+            case "kurs":
+                if (TeilnahmeController.GetInstance().GetAllForKurs(id).Length > 0)
+                {
+                    throw new Exception("Cannot remove a course that has students assigned!");
+                }
+                KursController.GetInstance().Remove(id);
+                return;
+            default:
+                throw new Exception($"Unknown model type \"{token[0]}\"!");
+        }
     }
 
     static void Assign(string[] token)
