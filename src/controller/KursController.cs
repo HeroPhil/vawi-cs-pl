@@ -10,4 +10,13 @@ class KursController : AbstractController<Kurs>
 
     public KursController() : base("kurse.xml") { }
 
+    public Kurs[] GetByDozentId(int id)
+    {
+        IEnumerable<Kurs> query = from kurs in GetAll()
+                                  where kurs.DozentID == id
+                                  select kurs;
+
+        return query.ToArray();
+    }
+
 }
