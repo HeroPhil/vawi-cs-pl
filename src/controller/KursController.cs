@@ -10,6 +10,14 @@ class KursController : AbstractController<Kurs>
 
     public KursController() : base("kurse.xml") { }
 
+    public override AbstractController<Kurs> Add(Kurs kurs)
+    {
+        if (PersonController.GetInstance().GetByID(kurs.DozentID).PersonTyp != PersonTypEnum.Dozent) {
+            throw new Exception("The person with the ID " + kurs.DozentID + " is not a dozent.");
+        }
+        return base.Add(kurs);
+    }
+
     public Kurs[] GetByDozentId(int id)
     {
         IEnumerable<Kurs> query = from kurs in GetAll()

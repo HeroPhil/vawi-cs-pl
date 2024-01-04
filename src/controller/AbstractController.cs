@@ -52,7 +52,7 @@ public abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
-    public AbstractController<T> Add(T item)
+    public virtual AbstractController<T> Add(T item)
     {
         _data.Add(item);
         if (AutoSave) Save();
