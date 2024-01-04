@@ -1,11 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Common;
-using System.Security.AccessControl;
-using System.Xml.Linq;
-
-class Program
+﻿class Program
 {
     static void Main()
     {

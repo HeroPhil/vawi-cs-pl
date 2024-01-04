@@ -1,5 +1,3 @@
-using System.Dynamic;
-
 public abstract class ChatUtil
 {
     public static string FieldDelimiter { get; } = "|";

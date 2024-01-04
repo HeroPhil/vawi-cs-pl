@@ -1,5 +1,3 @@
-using System.Data;
-
 public class Kurs : AbstractModel<Kurs>
 {
     public string Name { get; set; }
