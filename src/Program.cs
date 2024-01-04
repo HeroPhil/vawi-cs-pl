@@ -237,7 +237,11 @@ class Program
             case "person":
                 if (TeilnahmeController.GetInstance().GetAllForPerson(id).Length > 0)
                 {
-                    throw new Exception("Cannot remove a person that is assigned to a course!");
+                    throw new Exception("Cannot remove a student that is assigned to a course!");
+                }
+                if (KursController.GetInstance().GetByDozentId(id).Length > 0)
+                {
+                    throw new Exception("Cannot remove a dozent that is assigned to a course!");
                 }
                 PersonController.GetInstance().Remove(id);
                 return;
