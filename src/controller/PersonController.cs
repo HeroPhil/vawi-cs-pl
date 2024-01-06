@@ -1,6 +1,6 @@
-class PersonController : AbstractController<Person>
+internal class PersonController : AbstractController<Person>
 {
-    static PersonController? instance;
+    private static PersonController? instance;
 
     public static PersonController GetInstance()
     {

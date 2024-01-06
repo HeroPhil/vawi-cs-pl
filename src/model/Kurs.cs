@@ -1,4 +1,4 @@
-public class Kurs : AbstractModel<Kurs>
+internal class Kurs : AbstractModel<Kurs>
 {
     public string Name { get; set; }
     public string Beschreibung { get; set; }

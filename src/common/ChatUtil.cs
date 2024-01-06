@@ -1,4 +1,4 @@
-public abstract class ChatUtil
+internal abstract class ChatUtil
 {
     public static string FieldDelimiter { get; } = "|";
     public static string SubFieldDelimiter { get; } = ":";

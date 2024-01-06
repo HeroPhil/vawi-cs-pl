@@ -1,7 +1,6 @@
-class KursController : AbstractController<Kurs>
+internal class KursController : AbstractController<Kurs>
 {
-
-    static KursController? instance;
+    private static KursController? instance;
 
     public static KursController GetInstance()
     {

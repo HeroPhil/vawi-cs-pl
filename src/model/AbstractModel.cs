@@ -1,4 +1,4 @@
-public abstract class AbstractModel<T> where T : AbstractModel<T>, new()
+internal abstract class AbstractModel<T> where T : AbstractModel<T>, new()
 {
     public int ID { get; set; }
     abstract public T SetValues(params string[] values);

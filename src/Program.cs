@@ -1,19 +1,19 @@
-﻿class Program
+﻿internal class Program
 {
-    static void Main()
+    private static void Main()
     {
         Init();
         Loop();
     }
 
-    static void Init()
+    private static void Init()
     {
         PersonController.GetInstance();
         KursController.GetInstance();
         TeilnahmeController.GetInstance();
     }
 
-    static void Loop()
+    private static void Loop()
     {
         while (true)
         {
@@ -81,9 +81,7 @@
         }
     }
 
-
-
-    static void ListAll(string[] token)
+    private static void ListAll(string[] token)
     {
 
         if (token.Length < 1 || token.Length > 2)
@@ -113,7 +111,7 @@
 
     }
 
-    static void ListFilter(string[] token)
+    private static void ListFilter(string[] token)
     {
         int id = int.Parse(token[1]);
         switch (token[0])
@@ -130,7 +128,7 @@
         }
     }
 
-    static void Add(string[] token)
+    private static void Add(string[] token)
     {
         if (token.Length != 1)
         {
@@ -152,7 +150,7 @@
         }
     }
 
-    static void Update(string[] token)
+    private static void Update(string[] token)
     {
         if (token.Length != 2)
         {
@@ -175,7 +173,7 @@
         }
     }
 
-    static T CreateModelWithUserInput<T>(int id) where T : AbstractModel<T>, new()
+    private static T CreateModelWithUserInput<T>(int id) where T : AbstractModel<T>, new()
     {
         T model = new T
         {
@@ -184,7 +182,7 @@
         return UpdateModelWithUserInput(model);
     }
 
-    static T UpdateModelWithUserInput<T>(T model) where T : AbstractModel<T>, new()
+    private static T UpdateModelWithUserInput<T>(T model) where T : AbstractModel<T>, new()
     {
         // setup
         Console.WriteLine($"The following details are required for a {model.GetType().Name}:");
@@ -250,7 +248,7 @@
         }
     }
 
-    static void Assign(string[] token)
+    private static void Assign(string[] token)
     {
         if (token.Length != 2)
         {
@@ -282,7 +280,7 @@
 
     }
 
-    static void Dismiss(string[] token)
+    private static void Dismiss(string[] token)
     {
         if (token.Length != 2)
         {
@@ -313,7 +311,7 @@
 
     }
 
-    static void Grade(string[] token)
+    private static void Grade(string[] token)
     {
         if (token.Length < 2)
         {
