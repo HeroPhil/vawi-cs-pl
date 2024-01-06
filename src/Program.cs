@@ -1,11 +1,17 @@
 ﻿internal class Program
 {
+    // <summary>
+    // The main entry point for the application.
+    // </summary>
     private static void Main()
     {
         Init();
         Loop();
     }
 
+    // <summary>
+    // Initializes all controllers.
+    // </summary>
     private static void Init()
     {
         PersonController.GetInstance();
@@ -13,6 +19,9 @@
         TeilnahmeController.GetInstance();
     }
 
+    // <summary>
+    // The main loop of the application.
+    // </summary>
     private static void Loop()
     {
         while (true)
@@ -83,6 +92,11 @@
         }
     }
 
+    // <summary>
+    // Lists all models of a given type.
+    // If a second parameter is given, it will filter the results.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void ListAll(string[] token)
     {
 
@@ -113,6 +127,9 @@
 
     }
 
+    // <summary>
+    // Lists all assignments by a given person or course.
+    // </summary>
     private static void ListFilter(string[] token)
     {
         int id = int.Parse(token[1]);
@@ -130,6 +147,10 @@
         }
     }
 
+    // <summary>
+    // Adds a new model of a given type.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Add(string[] token)
     {
         if (token.Length != 1)
@@ -152,6 +173,10 @@
         }
     }
 
+    // <summary>
+    // Updates a model of a given type.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Update(string[] token)
     {
         if (token.Length != 2)
@@ -175,6 +200,11 @@
         }
     }
 
+    // <summary>
+    // Creates a new model of a given type and fills it with user input.
+    // </summary>
+    // <param name="id">The id of the new model.</param>
+    // <returns>The new model.</returns>
     private static T CreateModelWithUserInput<T>(int id) where T : AbstractModel<T>, new()
     {
         T model = new T
@@ -184,6 +214,11 @@
         return UpdateModelWithUserInput(model);
     }
 
+    // <summary>
+    // Updates a model of a given type and fills it with user input.
+    // </summary>
+    // <param name="model">The model to update.</param>
+    // <returns>The updated model.</returns>
     private static T UpdateModelWithUserInput<T>(T model) where T : AbstractModel<T>, new()
     {
         // setup
@@ -216,6 +251,10 @@
         return model.SetValues(values.ToArray());
     }
 
+    // <summary>
+    // Removes a model of a given type.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Remove(string[] token)
     {
         if (token.Length != 2)
@@ -250,6 +289,10 @@
         }
     }
 
+    // <summary>
+    // Assigns a student to a course.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Assign(string[] token)
     {
         if (token.Length != 2)
@@ -282,6 +325,10 @@
 
     }
 
+    // <summary>
+    // Dismisses a student from a course.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Dismiss(string[] token)
     {
         if (token.Length != 2)
@@ -313,6 +360,10 @@
 
     }
 
+    // <summary>
+    // Grades a student in a course.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Grade(string[] token)
     {
         if (token.Length < 2)
@@ -352,6 +403,11 @@
         }
     }
 
+    // <summary>
+    // Grades a student in a course with user input.
+    // </summary>
+    // <param name="personID">The id of the student.</param>
+    // <param name="kursID">The id of the course.</param>
     private static void GradeStudentInCourse(int personID, int kursID)
     {
         Person person = PersonController.GetInstance().GetByID(personID);
@@ -362,6 +418,12 @@
         GradeStudentInCourse(personID, kursID, note);
     }
 
+    // <summary>
+    // Grades a student in a course.
+    // </summary>
+    // <param name="personID">The id of the student.</param>
+    // <param name="kursID">The id of the course.</param>
+    // <param name="note">The grade.</param>
     private static void GradeStudentInCourse(int personID, int kursID, float note)
     {
         Person person = PersonController.GetInstance().GetByID(personID);

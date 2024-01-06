@@ -15,6 +15,8 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
 
     private XmlSerializer xmlSerializer { get; } = new XmlSerializer(typeof(List<T>));
 
+    // Constructor
+    // <param name="filename">Filename of the storage file. The file will be created if it does not exist.</param>
     public AbstractController(string filename)
     {
         StoragePath = Environment.CurrentDirectory + baseStoragePath + filename;
@@ -30,6 +32,10 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
     }
 
 
+    // <summary>
+    // Loads the data from the storage file.
+    // </summary>
+    // <returns>The controller instance.</returns>
     public AbstractController<T> Load()
     {
         // Load data from file in _storagePath
@@ -41,6 +47,10 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    // <summary>
+    // Saves the data to the storage file.
+    // </summary>
+    // <returns>The controller instance.</returns>
     public AbstractController<T> Save()
     {
         // Save data to file in _storagePath
@@ -52,6 +62,11 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    // <summary>
+    // Adds an item to the data list.
+    // </summary>
+    // <param name="item">The item to add.</param>
+    // <returns>The controller instance.</returns>
     public virtual AbstractController<T> Add(T item)
     {
         _data.Add(item);
@@ -59,6 +74,11 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    // <summary>
+    // Removes an item from the data list.
+    // </summary>
+    // <param name="item">The item to remove.</param>
+    // <returns>The controller instance.</returns>
     public AbstractController<T> Remove(T item)
     {
         _data.Remove(item);
@@ -66,6 +86,11 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    // <summary>
+    // Removes an item from the data list by ID.
+    // </summary>
+    // <param name="id">The ID of the item to remove.</param>
+    // <returns>The controller instance.</returns>
     public AbstractController<T> Remove(int id)
     {
         _data.Remove(GetByID(id));
@@ -73,6 +98,11 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    // <summary>
+    // Updates an item in the data list.
+    // </summary>
+    // <param name="item">The item to update.</param>
+    // <returns>The controller instance.</returns>
     public AbstractController<T> Update(int id, Action<T> updateFunction)
     {
         // This ensures that the item exists and is part of the data list. Object is safely mutated.
@@ -81,16 +111,29 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return this;
     }
 
+    // <summary>
+    // Returns all items in the data list.
+    // </summary>
+    // <returns>All items in the data list.</returns>
     public T[] GetAll()
     {
         return _data.ToArray();
     }
 
+    // <summary>
+    // Prints all items in the data list.
+    // </summary>
     public void PrintAll()
     {
         Print(GetAll());
     }
 
+    // <summary>
+    // Returns an item by ID.
+    // </summary>
+    // <param name="id">The ID of the item to return.</param>
+    // <returns>The item with the given ID.</returns>
+    // <exception cref="Exception">Thrown when no item with the given ID exists.</exception>
     public T GetByID(int id)
     {
         IEnumerable<T> queryResult = from item in _data
@@ -102,6 +145,10 @@ internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
         return queryResult.First();
     }
 
+    // <summary>
+    // Prints an array of items.
+    // </summary>
+    // <param name="values">The items to print.</param>
     protected void Print(T[] values) {
         Console.WriteLine(new T().GetHeader()); // static not possible with interface
         foreach (T item in values)

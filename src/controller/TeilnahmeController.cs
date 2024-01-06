@@ -9,6 +9,12 @@ internal class TeilnahmeController : AbstractController<Teilnahme>
 
     public TeilnahmeController() : base("teilnahme.xml") {}
 
+    // <summary>
+    // Adds a new teilnahme to the data list.
+    // Validates that the person and kurs exist.
+    // </summary>
+    // <param name="teilnahme">The teilnahme to add.</param>
+    // <returns>The assignment or null if assignment exists.</returns>
     public Teilnahme? GetByIDs(int personID, int kursID)
     {
         IEnumerable<Teilnahme> queryResult = from item in _data
@@ -23,6 +29,11 @@ internal class TeilnahmeController : AbstractController<Teilnahme>
         return queryResult.First();
     }
 
+    // <summary>
+    // Gets all teilnahmen for a given person ID.
+    // </summary>
+    // <param name="personID">The person ID.</param>
+    // <returns>The teilnahmen.</returns>
     public Teilnahme[] GetAllForPerson(int personID)
     {
         IEnumerable<Teilnahme> queryResult = from item in _data
@@ -32,6 +43,11 @@ internal class TeilnahmeController : AbstractController<Teilnahme>
         return queryResult.ToArray();
     }
 
+    // <summary>
+    // Gets all teilnahmen for a given kurs ID.
+    // </summary>
+    // <param name="kursID">The kurs ID.</param>
+    // <returns>The teilnahmen.</returns>
     public Teilnahme[] GetAllForKurs(int kursID)
     {
         IEnumerable<Teilnahme> queryResult = from item in _data
@@ -41,11 +57,18 @@ internal class TeilnahmeController : AbstractController<Teilnahme>
         return queryResult.ToArray();
     }
 
+    // <summary>
+    // Prints all teilnahmen for a given person ID.
+    // </summary>
+    // <param name="personID">The person ID.</param>
     public void PrintAllForPerson(int personID)
     {
         Print(GetAllForPerson(personID));
     }
 
+    // <summary>
+    // Prints all teilnahmen for a given kurs ID.
+    // </summary>
     public void PrintAllForKurs(int kursID)
     {
         Print(GetAllForKurs(kursID));
