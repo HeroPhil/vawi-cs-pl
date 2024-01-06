@@ -62,10 +62,12 @@
                     case "exit":
                         Console.WriteLine("Bye!");
                         break;
-                    default:
-                        Console.WriteLine($"Unknown command \"{command}\"!");
+                    case "help":
                         ChatUtil.PrintHelp();
                         continue;
+                    default:
+                        Console.WriteLine($"Unknown command \"{command}\"!");
+                        goto case "help";
                 }
             }
             catch (Exception e)
