@@ -1,4 +1,4 @@
-internal class Teilnahme : AbstractModel<Teilnahme>
+public class Teilnahme : AbstractModel<Teilnahme>
 {
     public int PersonID { get; set; }
     public int KursID { get; set; }

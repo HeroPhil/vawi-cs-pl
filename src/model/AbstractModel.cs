@@ -1,4 +1,4 @@
-internal abstract class AbstractModel<T> where T : AbstractModel<T>, new()
+public abstract class AbstractModel<T> where T : AbstractModel<T>, new()
 {
     // <summary>
     // The ID of the model.

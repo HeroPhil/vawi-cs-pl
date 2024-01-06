@@ -1,4 +1,4 @@
-internal abstract class ChatUtil
+public abstract class ChatUtil
 {
     // <summary>
     // The delimiter used to separate fields in the data files.

@@ -1,4 +1,4 @@
-internal class KursController : AbstractController<Kurs>
+public class KursController : AbstractController<Kurs>
 {
     private static KursController? instance;
 

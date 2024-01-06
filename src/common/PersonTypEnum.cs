@@ -1,4 +1,4 @@
-internal enum PersonTypEnum
+public enum PersonTypEnum
 {
     Student,
     Dozent

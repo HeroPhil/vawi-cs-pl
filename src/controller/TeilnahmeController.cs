@@ -1,4 +1,4 @@
-internal class TeilnahmeController : AbstractController<Teilnahme>
+public class TeilnahmeController : AbstractController<Teilnahme>
 {
     private static TeilnahmeController? instance;
 

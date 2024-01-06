@@ -1,4 +1,4 @@
-internal class Person : AbstractModel<Person>
+public class Person : AbstractModel<Person>
 {
     public PersonTypEnum PersonTyp { get; set; }
     public string Vorname { get; set; }

@@ -1,4 +1,4 @@
-internal class PersonController : AbstractController<Person>
+public class PersonController : AbstractController<Person>
 {
     private static PersonController? instance;
 

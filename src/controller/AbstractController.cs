@@ -1,7 +1,7 @@
 
 using System.Xml.Serialization;
 
-internal abstract class AbstractController<T> where T : AbstractModel<T>, new()
+public abstract class AbstractController<T> where T : AbstractModel<T>, new()
 {
     protected static string baseStoragePath { get; } = "/data/";
 

@@ -1,4 +1,4 @@
-internal class Adresse
+public class Adresse
 {
     public string Strasse { get; set; }
     public string Hausnummer { get; set; }
