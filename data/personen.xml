@@ -78,31 +78,16 @@
   <Person>
     <ID>6</ID>
     <PersonTyp>Student</PersonTyp>
-    <Vorname>Lea</Vorname>
-    <Nachname>Nettelbeck</Nachname>
+    <Vorname>Leo</Vorname>
+    <Nachname>Nettobock</Nachname>
     <Adresse>
-      <Strasse>Augustastrasse</Strasse>
-      <Hausnummer>85</Hausnummer>
+      <Strasse>Septembastrasse</Strasse>
+      <Hausnummer>58</Hausnummer>
       <PLZ>42119</PLZ>
       <Ort>Wuppertal</Ort>
       <Land>Deutschland</Land>
     </Adresse>
     <Geburtsdatum>2000-10-10T00:00:00</Geburtsdatum>
     <Abschluss>BEd</Abschluss>
-  </Person>
-  <Person>
-    <ID>7</ID>
-    <PersonTyp>Student</PersonTyp>
-    <Vorname>Sandy</Vorname>
-    <Nachname>Herold</Nachname>
-    <Adresse>
-      <Strasse>Koelnerstr</Strasse>
-      <Hausnummer>13a</Hausnummer>
-      <PLZ>42699</PLZ>
-      <Ort>Haan</Ort>
-      <Land>De</Land>
-    </Adresse>
-    <Geburtsdatum>1970-10-20T00:00:00</Geburtsdatum>
-    <Abschluss>BSc</Abschluss>
   </Person>
 </ArrayOfPerson>
