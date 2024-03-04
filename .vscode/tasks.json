@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/vawi-cs-sl.csproj",
+                "${workspaceFolder}/vawi-cs-pl.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/vawi-cs-sl.csproj",
+                "${workspaceFolder}/vawi-cs-pl.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/vawi-cs-sl.csproj"
+                "${workspaceFolder}/vawi-cs-pl.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

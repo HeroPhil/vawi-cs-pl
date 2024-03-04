@@ -14,9 +14,7 @@
     // </summary>
     private static void Init()
     {
-        PersonController.GetInstance();
-        KursController.GetInstance();
-        TeilnahmeController.GetInstance();
+        CustomerController.GetInstance();
     }
 
     // <summary>
@@ -55,18 +53,7 @@
                         Remove(parameters);
                         continue;
                     case "save":
-                        PersonController.GetInstance().Save();
-                        KursController.GetInstance().Save();
-                        TeilnahmeController.GetInstance().Save();
-                        continue;
-                    case "assign":
-                        Assign(parameters);
-                        continue;
-                    case "dismiss":
-                        Dismiss(parameters);
-                        continue;
-                    case "grade":
-                        Grade(parameters);
+                        CustomerController.GetInstance().Save();
                         continue;
                     case "exit":
                         Console.WriteLine("Bye!");
@@ -106,19 +93,16 @@
             throw new Exception("Invalid Syntax. Expecting at least one parameter");
         }
 
-        if (token.Length == 2)
-        {
-            ListFilter(token);
-            return;
-        }
+        // if (token.Length == 2)
+        // {
+        //     ListFilter(token);
+        //     return;
+        // }
 
         switch (token[0])
         {
-            case "person":
-                PersonController.GetInstance().PrintAll();
-                return;
-            case "kurs":
-                KursController.GetInstance().PrintAll();
+            case "customer":
+                CustomerController.GetInstance().PrintAll();
                 return;
             default:
                 ChatUtil.PrintLsHelp();
@@ -127,25 +111,25 @@
 
     }
 
-    // <summary>
-    // Lists all assignments by a given person or course.
-    // </summary>
-    private static void ListFilter(string[] token)
-    {
-        int id = int.Parse(token[1]);
-        switch (token[0])
-        {
-            case "person":
-                TeilnahmeController.GetInstance().PrintAllForPerson(id);
-                return;
-            case "kurs":
-                TeilnahmeController.GetInstance().PrintAllForKurs(id);
-                return;
-            default:
-                ChatUtil.PrintLsHelp();
-                throw new Exception($"Unknown model type \"{token[0]}\"!");
-        }
-    }
+    // // <summary>
+    // // Lists all assignments by a given person or course.
+    // // </summary>
+    // private static void ListFilter(string[] token)
+    // {
+    //     int id = int.Parse(token[1]);
+    //     switch (token[0])
+    //     {
+    //         case "person":
+    //             TeilnahmeController.GetInstance().PrintAllForPerson(id);
+    //             return;
+    //         case "kurs":
+    //             TeilnahmeController.GetInstance().PrintAllForKurs(id);
+    //             return;
+    //         default:
+    //             ChatUtil.PrintLsHelp();
+    //             throw new Exception($"Unknown model type \"{token[0]}\"!");
+    //     }
+    // }
 
     // <summary>
     // Adds a new model of a given type.
@@ -161,11 +145,8 @@
 
         switch (token[0])
         {
-            case "person":
-                PersonController.GetInstance().Add(CreateModelWithUserInput<Person>(PersonController.GetInstance().NextFreeId));
-                return;
-            case "kurs":
-                KursController.GetInstance().Add(CreateModelWithUserInput<Kurs>(KursController.GetInstance().NextFreeId));
+            case "customer":
+                CustomerController.GetInstance().Add(CreateModelWithUserInput<Customer>(CustomerController.GetInstance().NextFreeId));
                 return;
             default:
                 ChatUtil.PrintAddHelp();
@@ -189,10 +170,7 @@
         switch (token[0])
         {
             case "person":
-                PersonController.GetInstance().Update(id, (Person person) => UpdateModelWithUserInput(person));
-                return;
-            case "kurs":
-                KursController.GetInstance().Update(id, (Kurs kurs) => UpdateModelWithUserInput(kurs));
+                CustomerController.GetInstance().Update(id, (Customer customer) => UpdateModelWithUserInput(customer));
                 return;
             default:
                 ChatUtil.PrintUpdateHelp();
@@ -266,182 +244,20 @@
         int id = int.Parse(token[1]);
         switch (token[0])
         {
-            case "person":
-                if (TeilnahmeController.GetInstance().GetAllForPerson(id).Length > 0)
-                {
-                    throw new Exception("Cannot remove a student that is assigned to a course!");
-                }
-                if (KursController.GetInstance().GetByDozentId(id).Length > 0)
-                {
-                    throw new Exception("Cannot remove a dozent that is assigned to a course!");
-                }
-                PersonController.GetInstance().Remove(id);
-                return;
-            case "kurs":
-                if (TeilnahmeController.GetInstance().GetAllForKurs(id).Length > 0)
-                {
-                    throw new Exception("Cannot remove a course that has students assigned!");
-                }
-                KursController.GetInstance().Remove(id);
+            case "customer":
+                // if (TeilnahmeController.GetInstance().GetAllForPerson(id).Length > 0)
+                // {
+                //     throw new Exception("Cannot remove a student that is assigned to a course!");
+                // }
+                // if (KursController.GetInstance().GetByDozentId(id).Length > 0)
+                // {
+                //     throw new Exception("Cannot remove a dozent that is assigned to a course!");
+                // }
+                CustomerController.GetInstance().Remove(id);
                 return;
             default:
                 throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
-    }
-
-    // <summary>
-    // Assigns a student to a course.
-    // </summary>
-    // <param name="token">The command token.</param>
-    private static void Assign(string[] token)
-    {
-        if (token.Length != 2)
-        {
-            ChatUtil.PrintAssignHelp();
-            throw new Exception("Invalid Syntax. Expecting exactly two parameters");
-        }
-
-
-        int personID = int.Parse(token[0]);
-        int kursID = int.Parse(token[1]);
-
-        Person person = PersonController.GetInstance().GetByID(personID);
-        if (person.PersonTyp != PersonTypEnum.Student)
-        {
-            throw new Exception("Only students can be assigned to a course!");
-        }
-
-        if (TeilnahmeController.GetInstance().GetByIDs(personID, kursID) != null)
-        {
-            throw new Exception($"The student with Id {personID} is already assigned to this course!");
-        }
-
-        TeilnahmeController.GetInstance().Add(new Teilnahme()
-        {
-            ID = TeilnahmeController.GetInstance().NextFreeId,
-            PersonID = personID,
-            KursID = kursID
-        });
-
-    }
-
-    // <summary>
-    // Dismisses a student from a course.
-    // </summary>
-    // <param name="token">The command token.</param>
-    private static void Dismiss(string[] token)
-    {
-        if (token.Length != 2)
-        {
-            ChatUtil.PrintDismissHelp();
-            throw new Exception("Invalid Syntax. Expecting exactly two parameters");
-        }
-
-
-        int personID = int.Parse(token[0]);
-        int kursID = int.Parse(token[1]);
-
-        Person person = PersonController.GetInstance().GetByID(personID);
-        if (person.PersonTyp != PersonTypEnum.Student)
-        {
-            throw new Exception("Only students can be dismissed from a course");
-        }
-
-        Kurs kurs = KursController.GetInstance().GetByID(kursID);
-
-        Teilnahme? teilnahme = TeilnahmeController.GetInstance().GetByIDs(personID, kursID) ?? throw new Exception($"The student with Id {personID} is not assigned to this course!");
-
-        if (!ChatUtil.Confirm($"Do you want to dismiss the student \"{person.Vorname} {person.Nachname}\" from course \"{kurs.Name}\" ({kurs.Semester})?{(teilnahme.Note == null ? "" : $"\n\tAll grades will be deleted!")}"))
-        {
-            throw new Exception("Dismissal aborted!");
-        }
-
-        TeilnahmeController.GetInstance().Remove(teilnahme);
-
-    }
-
-    // <summary>
-    // Grades a student in a course.
-    // </summary>
-    // <param name="token">The command token.</param>
-    private static void Grade(string[] token)
-    {
-        if (token.Length < 2)
-        {
-            ChatUtil.PrintGradeHelp();
-            throw new Exception("Invalid Syntax. Expecting at least two parameters");
-        }
-
-        if (token.Length == 3)
-        {
-            // directly grade one student in one course
-            GradeStudentInCourse(int.Parse(token[0]), int.Parse(token[1]), float.Parse(token[2]));
-            return;
-        }
-
-        int id = int.Parse(token[1]);
-        Teilnahme[]? teilnahmen;
-        switch (token[0])
-        {
-            // grade all students in one course
-            case "kurs":
-                teilnahmen = TeilnahmeController.GetInstance().GetAllForKurs(id);
-                break;
-            // grade one student in all courses
-            case "student":
-                teilnahmen = TeilnahmeController.GetInstance().GetAllForPerson(id);
-                break;
-            // grade one student in one course
-            default:
-                GradeStudentInCourse(int.Parse(token[0]), id);
-                return;
-        }
-
-        foreach (Teilnahme teilnahme in teilnahmen)
-        {
-            GradeStudentInCourse(teilnahme.PersonID, teilnahme.KursID);
-        }
-    }
-
-    // <summary>
-    // Grades a student in a course with user input.
-    // </summary>
-    // <param name="personID">The id of the student.</param>
-    // <param name="kursID">The id of the course.</param>
-    private static void GradeStudentInCourse(int personID, int kursID)
-    {
-        Person person = PersonController.GetInstance().GetByID(personID);
-        Kurs kurs = KursController.GetInstance().GetByID(kursID);
-
-        float note = float.Parse(ChatUtil.GetInput($"Enter grade for student \"{person.Vorname} {person.Nachname}\" in course \"{kurs.Name}\" ({kurs.Semester})"));
-
-        GradeStudentInCourse(personID, kursID, note);
-    }
-
-    // <summary>
-    // Grades a student in a course.
-    // </summary>
-    // <param name="personID">The id of the student.</param>
-    // <param name="kursID">The id of the course.</param>
-    // <param name="note">The grade.</param>
-    private static void GradeStudentInCourse(int personID, int kursID, float note)
-    {
-        Person person = PersonController.GetInstance().GetByID(personID);
-        if (person.PersonTyp != PersonTypEnum.Student)
-        {
-            throw new Exception("Only students can be graded!");
-        }
-
-        Kurs kurs = KursController.GetInstance().GetByID(kursID);
-
-        Teilnahme? teilnahme = TeilnahmeController.GetInstance().GetByIDs(personID, kursID) ?? throw new Exception($"The student with Id {personID} is not assigned to this course!");
-
-        if (teilnahme.Note != null && !ChatUtil.Confirm($"The student \"{person.Vorname} {person.Nachname}\" already has the grade {teilnahme.Note} for course \"{kurs.Name}\" ({kurs.Semester})!\nDo you want to overwrite the grade?"))
-        {
-            throw new Exception("Grading aborted!");
-        }
-
-        TeilnahmeController.GetInstance().Update(teilnahme.ID, (Teilnahme teilnahme) => teilnahme.Note = note);
     }
 
 }

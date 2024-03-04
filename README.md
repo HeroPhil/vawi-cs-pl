@@ -1,4 +1,4 @@
-# vawi-cs-sl
+# vawi-cs-pl
 
 This is a repository for the VAWi Course C Sharp for Software Engineers.
 
@@ -19,4 +19,4 @@ The .vscode folder contains a tasks.json file which contains the build task. To 
 ## How to run the project
 To run the project you can either use the .NET Core CLI or Visual Studio Code.
 The .vscode folder contains a launch.json file which contains the run task. To run the project, press F5.
-The bin/ folder contains already the compiled binaries for arm macs. You can just execute the vawi-cs-sl file from the root folder.
+The bin/ folder contains already the compiled binaries for arm macs. You can just execute the vawi-cs-pl file from the root folder.
