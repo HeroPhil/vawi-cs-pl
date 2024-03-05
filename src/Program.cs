@@ -15,6 +15,8 @@
     private static void Init()
     {
         CustomerController.GetInstance();
+        BoatCategoryController.GetInstance();
+        BoatController.GetInstance();
     }
 
     // <summary>
@@ -54,6 +56,8 @@
                         continue;
                     case "save":
                         CustomerController.GetInstance().Save();
+                        BoatCategoryController.GetInstance().Save();
+                        BoatController.GetInstance().Save();
                         continue;
                     case "exit":
                         Console.WriteLine("Bye!");
@@ -93,16 +97,22 @@
             throw new Exception("Invalid Syntax. Expecting at least one parameter");
         }
 
-        // if (token.Length == 2)
-        // {
-        //     ListFilter(token);
-        //     return;
-        // }
+        if (token.Length == 2)
+        {
+            ListFilter(token);
+            return;
+        }
 
         switch (token[0])
         {
             case "customer":
                 CustomerController.GetInstance().PrintAll();
+                return;
+            case "category":
+                BoatCategoryController.GetInstance().PrintAll();
+                return;
+            case "boat":
+                BoatController.GetInstance().PrintAll();
                 return;
             default:
                 ChatUtil.PrintLsHelp();
@@ -111,25 +121,22 @@
 
     }
 
-    // // <summary>
-    // // Lists all assignments by a given person or course.
-    // // </summary>
-    // private static void ListFilter(string[] token)
-    // {
-    //     int id = int.Parse(token[1]);
-    //     switch (token[0])
-    //     {
-    //         case "person":
-    //             TeilnahmeController.GetInstance().PrintAllForPerson(id);
-    //             return;
-    //         case "kurs":
-    //             TeilnahmeController.GetInstance().PrintAllForKurs(id);
-    //             return;
-    //         default:
-    //             ChatUtil.PrintLsHelp();
-    //             throw new Exception($"Unknown model type \"{token[0]}\"!");
-    //     }
-    // }
+    // <summary>
+    // Lists all assignments by a given person or course.
+    // </summary>
+    private static void ListFilter(string[] token)
+    {
+        int id = int.Parse(token[1]);
+        switch (token[0])
+        {
+            case "category":
+                BoatController.GetInstance().PrintBoatsForCategory(id);
+                return;               
+            default:
+                ChatUtil.PrintLsHelp();
+                throw new Exception($"Unknown model type \"{token[0]}\"!");
+        }
+    }
 
     // <summary>
     // Adds a new model of a given type.
@@ -147,6 +154,12 @@
         {
             case "customer":
                 CustomerController.GetInstance().Add(CreateModelWithUserInput<Customer>(CustomerController.GetInstance().NextFreeId));
+                return;
+            case "category":
+                BoatCategoryController.GetInstance().Add(CreateModelWithUserInput<BoatCategory>(BoatCategoryController.GetInstance().NextFreeId));
+                return;
+            case "boat":
+                BoatController.GetInstance().Add(CreateModelWithUserInput<Boat>(BoatController.GetInstance().NextFreeId));
                 return;
             default:
                 ChatUtil.PrintAddHelp();
@@ -169,8 +182,14 @@
         int id = int.Parse(token[1]);
         switch (token[0])
         {
-            case "person":
+            case "customer":
                 CustomerController.GetInstance().Update(id, (Customer customer) => UpdateModelWithUserInput(customer));
+                return;
+            case "category":
+                BoatCategoryController.GetInstance().Update(id, (BoatCategory category) => UpdateModelWithUserInput(category));
+                return;
+            case "boat":
+                BoatController.GetInstance().Update(id, (Boat boat) => UpdateModelWithUserInput(boat));
                 return;
             default:
                 ChatUtil.PrintUpdateHelp();
@@ -254,6 +273,16 @@
                 //     throw new Exception("Cannot remove a dozent that is assigned to a course!");
                 // }
                 CustomerController.GetInstance().Remove(id);
+                return;
+            case "category":
+                if (BoatController.GetInstance().GetByCategoryID(id).Length > 0)
+                {
+                    throw new Exception("Cannot remove a category which still has boats assigned!");
+                }
+                BoatCategoryController.GetInstance().Remove(id);
+                return;
+            case "boat":
+                BoatController.GetInstance().Remove(id);
                 return;
             default:
                 throw new Exception($"Unknown model type \"{token[0]}\"!");

@@ -13,7 +13,7 @@
     </Address>
     <Birthday>2000-12-28T00:00:00</Birthday>
     <Iban>DE123456</Iban>
-    <License></License>
+    <HasLicense>false</HasLicense>
   </Customer>
   <Customer>
     <ID>2</ID>
@@ -28,7 +28,7 @@
     </Address>
     <Birthday>2001-01-01T00:00:00</Birthday>
     <Iban>DE654321</Iban>
-    <License>SBF</License>
+    <HasLicense>true</HasLicense>
   </Customer>
   <Customer>
     <ID>3</ID>
@@ -43,7 +43,7 @@
     </Address>
     <Birthday>2002-02-02T00:00:00</Birthday>
     <Iban>DE123456</Iban>
-    <License>SBF</License>
+    <HasLicense>true</HasLicense>
   </Customer>
   <Customer>
     <ID>4</ID>
@@ -58,6 +58,6 @@
     </Address>
     <Birthday>2003-03-03T00:00:00</Birthday>
     <Iban>DE123456</Iban>
-    <License>SBF</License>
+    <HasLicense>true</HasLicense>
   </Customer>
 </ArrayOfCustomer>

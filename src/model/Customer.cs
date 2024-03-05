@@ -5,7 +5,7 @@ public class Customer : AbstractModel<Customer>
     public Address Address { get; set; }
     public DateTime Birthday { get; set; }
     public string Iban { get; set; }
-    public string License { get; set; }
+    public bool HasLicense { get; set; }
 
     public Customer()
     {
@@ -15,10 +15,10 @@ public class Customer : AbstractModel<Customer>
         Address = new Address();
         Birthday = DateTime.Now;
         Iban = "";
-        License = "";
+        HasLicense = false;
     }
 
-    public Customer(int id, string firstName, string lastName, Address address, DateTime birthday, string iban, string license)
+    public Customer(int id, string firstName, string lastName, Address address, DateTime birthday, string iban, bool hasLicense)
     {
         ID = id;
         FirstName = firstName;
@@ -26,7 +26,7 @@ public class Customer : AbstractModel<Customer>
         Address = address;
         Birthday = birthday;
         Iban = iban;
-        License = license;
+        HasLicense = hasLicense;
     }
 
     public override Customer SetValues(params string[] values)
@@ -42,10 +42,10 @@ public class Customer : AbstractModel<Customer>
 
     public override string[] GetValues()
     {
-        return new string[] { ID.ToString(), FirstName, LastName, Address.ToString(), Birthday.ToString(), Iban, License };
+        return new string[] { ID.ToString(), FirstName, LastName, Address.ToString(), Birthday.ToString(), Iban, HasLicense.ToString() };
     }
     public override string GetHeader()
     {
-        return new string[] {"ID", "Firstname", "Lastname", Address.GetHeader(), "Birthday", "IBAN", "License"}.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
+        return new string[] {"ID", "Firstname", "Lastname", Address.GetHeader(), "Birthday", "IBAN", "Has License"}.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
     }
 }

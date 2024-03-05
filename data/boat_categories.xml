@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfBoatCategory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BoatCategory>
+    <ID>1</ID>
+    <Name>Tretboot</Name>
+    <Description>Anstrengend</Description>
+    <Price>5000</Price>
+    <LongtimeDiscount>15</LongtimeDiscount>
+  </BoatCategory>
+  <BoatCategory>
+    <ID>2</ID>
+    <Name>Tretboot mit Rutsche</Name>
+    <Description>Macht Spass</Description>
+    <Price>7500</Price>
+    <LongtimeDiscount>15</LongtimeDiscount>
+  </BoatCategory>
+  <BoatCategory>
+    <ID>3</ID>
+    <Name>Motorboot</Name>
+    <Description>Easy</Description>
+    <Price>15000</Price>
+    <LongtimeDiscount>20</LongtimeDiscount>
+  </BoatCategory>
+</ArrayOfBoatCategory>
