@@ -54,6 +54,9 @@
                     case "rm":
                         Remove(parameters);
                         continue;
+                    case "rent":
+                        Rent(parameters);
+                        continue;
                     case "save":
                         CustomerController.GetInstance().Save();
                         BoatCategoryController.GetInstance().Save();
@@ -114,6 +117,9 @@
             case "boat":
                 BoatController.GetInstance().PrintAll();
                 return;
+            case "rental":
+                RentalController.GetInstance().PrintAll();
+                return;
             default:
                 ChatUtil.PrintLsHelp();
                 throw new Exception($"Unknown model type \"{token[0]}\"!");
@@ -131,7 +137,7 @@
         {
             case "category":
                 BoatController.GetInstance().PrintBoatsForCategory(id);
-                return;               
+                return;
             default:
                 ChatUtil.PrintLsHelp();
                 throw new Exception($"Unknown model type \"{token[0]}\"!");
@@ -226,26 +232,33 @@
 
         List<string> values = model.GetValues().ToList();
 
-        // update values
-        for (int i = 1; i < header.Count(); i++) // skip id
+        bool? confirmed;
+        do
         {
-            string currentValue = values[i];
-            string newValue = ChatUtil.GetInlineInput($"{header[i]} ({currentValue})");
-            values[i] = newValue != "" ? newValue : currentValue;
-        }
+            // update values
+            for (int i = 1; i < header.Count(); i++) // skip id
+            {
+                string currentValue = values[i];
+                string newValue = ChatUtil.GetInlineInput($"{header[i]} ({currentValue})");
+                values[i] = newValue != "" ? newValue : currentValue;
+            }
+            model.SetValues(values.ToArray());
 
-        // confirm input
-        if (!ChatUtil.Confirm(
-            $"Do you want to save the following {model.GetType().Name}?\n" +
-            $"{header.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}\n" +
-            $"{values.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}"
-            ))
-        {
-            throw new Exception("Action Aborted!");
-        }
+            // confirm input
+            confirmed = ChatUtil.ConfirmOrCancel(
+                $"Do you want to save the following {model.GetType().Name}?\n" +
+                $"{model.GetDetailedHeader()}\n" +
+                $"{model.GetDetailedValues().Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b)}");
+
+            if (confirmed == null)
+            {
+                throw new Exception("Action Aborted!");
+            }
+
+        } while (!confirmed.Value); // repeat until confirmed or canceled
 
         // return final model
-        return model.SetValues(values.ToArray());
+        return model;
     }
 
     // <summary>
@@ -287,6 +300,27 @@
             default:
                 throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
+    }
+
+    private static void Rent(string[] token)
+    {
+        if (token.Length != 0)
+        {
+            // ChatUtil.PrintRentHelp(); // TODO
+            throw new Exception("Invalid Syntax. Rent does not take any parameter");
+        }
+
+        Rental request = CreateModelWithUserInput<Rental>(RentalController.GetInstance().NextFreeId);
+        while (!RentalController.validateRental(request))
+        {
+            if (!ChatUtil.Confirm("Do you want to change the rental and try again?"))
+            {
+                throw new Exception("Rental Aborted!");
+            }
+            request = UpdateModelWithUserInput(request);
+        }
+
+        RentalController.GetInstance().Add(request);
     }
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfRental xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Rental>
+    <ID>1</ID>
+    <CustomerID>1</CustomerID>
+    <BoatID>1</BoatID>
+    <ProxyStartDate>3/7/2024</ProxyStartDate>
+    <ProxyEndDate>3/8/2024</ProxyEndDate>
+  </Rental>
+  <Rental>
+    <ID>2</ID>
+    <CustomerID>1</CustomerID>
+    <BoatID>2</BoatID>
+    <ProxyStartDate>3/7/2024</ProxyStartDate>
+    <ProxyEndDate>3/9/2024</ProxyEndDate>
+  </Rental>
+</ArrayOfRental>

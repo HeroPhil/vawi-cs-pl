@@ -150,7 +150,7 @@ public abstract class AbstractController<T> where T : AbstractModel<T>, new()
     // </summary>
     // <param name="values">The items to print.</param>
     protected void Print(T[] values) {
-        Console.WriteLine(new T().GetHeader()); // static not possible with interface
+        Console.WriteLine(new T().GetDetailedHeader()); // static not possible with interface
         foreach (T item in values)
         {
             Console.WriteLine(item.ToString());

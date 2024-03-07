@@ -17,12 +17,29 @@ public abstract class AbstractModel<T> where T : AbstractModel<T>, new()
     // <returns>The values in the order dictated by the header</returns>
     abstract public string[] GetValues();
 
+
+    // <summary>
+    // Gets the detailed values of the model, which includes the values of the fields and some calculated values.
+    // </summary>
+    // <returns>The detailed values in the order dictated by the header</returns>
+    virtual public string[] GetDetailedValues() {
+        return GetValues();
+    }
+
     // <summary>
     // Gets the header of the model, which includes the names of the fields.
     // </summary>
     // <returns>The header delimited by the ChatUtil.FieldDelimiter</returns>
     abstract public string GetHeader();
 
-    public override string ToString() => GetValues().Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
+    // <summary>
+    // Gets the detailed header of the model, which includes the names of the fields including for calculated values.
+    // </summary>
+    // <returns>The detailed header delimited by the ChatUtil.FieldDelimiter</returns>
+    virtual public string GetDetailedHeader() {
+        return GetHeader();
+    }
+
+    public override string ToString() => GetDetailedValues().Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
 
 }

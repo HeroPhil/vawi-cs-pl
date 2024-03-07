@@ -42,6 +42,19 @@ public abstract class ChatUtil
     }
 
     // <summary>
+    // Gather trinary response from the user.
+    // </summary>
+    // <param name="message">The message to display.</param>
+    // <returns>True if the user responded with "y", false if the user responded with "n", null otherwise.</returns>
+    public static bool? ConfirmOrCancel(string message)
+    {
+        string input = GetInput(message + " (y/n/c)").ToLower();
+        if (input == "y") return true;
+        if (input == "n") return false;
+        return null;
+    }
+
+    // <summary>
     // Print all help message.
     // </summary>
     public static void PrintHelp()
