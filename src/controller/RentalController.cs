@@ -9,6 +9,46 @@ public class RentalController : AbstractController<Rental>
         return instance ??= new RentalController();
     }
 
+    // <summary>
+    // Gets all rentals for a given customer ID.
+    // </summary>
+    // <param name="customerID">The customer ID.</param>
+    // <returns>The rentals.</returns>
+    public Rental[] GetAllForCustomer(int customerID)
+    {
+        IEnumerable<Rental> queryResult = from item in _data
+                                          where item.CustomerID == customerID
+                                          select item;
+
+        return queryResult.ToArray();
+    }
+
+
+    // <summary>
+    // Gets all rentals for a given boat ID.
+    // </summary>
+    // <param name="boatID">The boat ID.</param>
+    // <returns>The rentals.</returns>
+
+    public Rental[] GetAllForBoat(int boatID)
+    {
+        IEnumerable<Rental> queryResult = from item in _data
+                                          where item.BoatID == boatID
+                                          select item;
+
+        return queryResult.ToArray();
+    }
+
+    public void PrintRentalsForCustomer(int id)
+    {
+        Print(GetAllForCustomer(id));
+    }
+
+    public void PrintRentalsForBoat(int id)
+    {
+        Print(GetAllForBoat(id));
+    }
+
     public static Boolean validateRental(Rental rental)
     {
         // customer and boat must be set
@@ -39,6 +79,13 @@ public class RentalController : AbstractController<Rental>
             return false;
         }
 
+        // warning if start date is in the past
+        if (rental.StartDate < DateOnly.FromDateTime(DateTime.Now))
+        {
+            Console.WriteLine("Warning: Start date is in the past");
+            // no return false here, because this is just a warning
+        }
+
         // duration must be at least 1 day
         if (rental.Duration < 1)
         {
@@ -58,9 +105,6 @@ public class RentalController : AbstractController<Rental>
                 }
             }
         }
-
-        
-
         return true;
     }
 

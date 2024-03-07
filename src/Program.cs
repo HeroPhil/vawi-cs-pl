@@ -1,4 +1,6 @@
-﻿public class Program
+﻿using System.ComponentModel;
+
+public class Program
 {
     // <summary>
     // The main entry point for the application.
@@ -137,6 +139,12 @@
         {
             case "category":
                 BoatController.GetInstance().PrintBoatsForCategory(id);
+                return;
+            case "boat":
+                RentalController.GetInstance().PrintRentalsForBoat(id);
+                return;
+            case "customer":
+                RentalController.GetInstance().PrintRentalsForCustomer(id);
                 return;
             default:
                 ChatUtil.PrintLsHelp();
