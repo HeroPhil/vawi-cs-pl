@@ -64,9 +64,8 @@ public abstract class ChatUtil
         PrintAddHelp();
         PrintUpdateHelp();
         PrintRemoveHelp();
-        PrintAssignHelp();
-        PrintDismissHelp();
-        PrintGradeHelp();
+        PrintRentHelp();
+        PrintReturnHelp();
         Console.WriteLine("save");
         Console.WriteLine("help");
         Console.WriteLine("exit");
@@ -77,9 +76,9 @@ public abstract class ChatUtil
     // </summary>
     public static void PrintLsHelp()
     {
-        Console.WriteLine("ls <model> [<filter>]");
-        Console.WriteLine("  <model>   - person | kurs");
-        Console.WriteLine("  <filter>  - <id>");
+        Console.WriteLine("ls <model> [<id>]");
+        Console.WriteLine("  <model>   - customer | category | boat | rental");
+        Console.WriteLine("  <id>      - <id>");
     }
 
     // <summary>
@@ -88,7 +87,7 @@ public abstract class ChatUtil
     public static void PrintAddHelp()
     {
         Console.WriteLine("add <model>");
-        Console.WriteLine("  <model>   - person | kurs");
+        Console.WriteLine("  <model>   - customer | category | boat");
     }
 
     // <summary>
@@ -97,7 +96,7 @@ public abstract class ChatUtil
     public static void PrintUpdateHelp()
     {
         Console.WriteLine("update <model> <id>");
-        Console.WriteLine("  <model>   - person | kurs");
+        Console.WriteLine("  <model>   - customer | category | boat | rental");
         Console.WriteLine("  <id>      - <id>");
     }
 
@@ -107,38 +106,24 @@ public abstract class ChatUtil
     public static void PrintRemoveHelp()
     {
         Console.WriteLine("rm <model> <id>");
-        Console.WriteLine("  <model>   - person | kurs");
+        Console.WriteLine("  <model>   - customer | category | boat | rental");
         Console.WriteLine("  <id>      - <id>");
     }
 
     // <summary>
-    // Print help message for assign command.
+    // Print help message for rent command.
     // </summary>
-    public static void PrintAssignHelp()
+    public static void PrintRentHelp()
     {
-        Console.WriteLine("assign <personId> <kursId>");
-        Console.WriteLine("  <personId>   - <id>");
-        Console.WriteLine("  <kursId>     - <id>");
+        Console.WriteLine("rent");
     }
 
     // <summary>
-    // Print help message for dismiss command.
+    // Print help message for return command.
     // </summary>
-    public static void PrintDismissHelp()
+    public static void PrintReturnHelp()
     {
-        Console.WriteLine("dismiss <personId> <kursId>");
-        Console.WriteLine("  <personId>   - <id>");
-        Console.WriteLine("  <kursId>     - <id>");
-    }
-
-    // <summary>
-    // Print help message for grade command.
-    // </summary>
-    public static void PrintGradeHelp()
-    {
-        Console.WriteLine("grade <personId> <kursId> [<note>]");
-        Console.WriteLine("  <personId>   - <id>");
-        Console.WriteLine("  <kursId>     - <id>");
-        Console.WriteLine("  <note>       - <float>");
+        Console.WriteLine("return [<id>]");
+        Console.WriteLine("  <id>      - <id>");
     }
 }

@@ -70,6 +70,7 @@ public class Program
                     case "exit":
                         Console.WriteLine("Bye!");
                         break;
+                    case "":
                     case "help":
                         ChatUtil.PrintHelp();
                         continue;
@@ -331,7 +332,7 @@ public class Program
     {
         if (token.Length != 0)
         {
-            // ChatUtil.PrintRentHelp(); // TODO
+            ChatUtil.PrintRentHelp();
             throw new Exception("Invalid Syntax. Rent does not take any parameter");
         }
 
@@ -352,7 +353,7 @@ public class Program
     {
         if (token.Length > 1)
         {
-            //ChatUtil.PrintReturnHelp(); //todo
+            ChatUtil.PrintReturnHelp();
             throw new Exception("Invalid Syntax. Expecting at most one parameter");
         }
 
@@ -403,5 +404,4 @@ public class Program
         // mark rental as returned
         RentalController.GetInstance().Update(rental.ID, (Rental rental) => rental.returned = true);
     }
-
 }
