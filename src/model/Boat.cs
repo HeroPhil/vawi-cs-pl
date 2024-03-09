@@ -6,6 +6,24 @@ public class Boat : AbstractModel<Boat>
     public int Seats { get; set; }
     public bool RequiresLicense { get; set; }
 
+    public bool IsAvailable
+    {
+        get
+        {
+            Rental[] rentals = RentalController.GetInstance().GetAllForBoat(ID);
+            DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+
+            foreach (Rental rental in rentals)
+            {
+                if (rental.StartDate <= now && rental.EndDate >= now)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
     public Boat()
     {
         ID = -1;
@@ -41,8 +59,19 @@ public class Boat : AbstractModel<Boat>
     {
         return new string[] { ID.ToString(), CategoryID.ToString(), Brand, Description, Seats.ToString(), RequiresLicense.ToString() };
     }
+
+    public override string[] GetDetailedValues()
+    {
+        return new string[] { ID.ToString(), CategoryID.ToString(), Brand, Description, Seats.ToString(), RequiresLicense.ToString(), IsAvailable.ToString() };
+    }
+
     public override string GetHeader()
     {
-        return new string[] {"ID", "CategoryId", "Brand", "Description", "Seats", "Requires License"}.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
+        return new string[] { "ID", "CategoryId", "Brand", "Description", "Seats", "Requires License" }.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
+    }
+
+    public override string GetDetailedHeader()
+    {
+        return new string[] { "ID", "CategoryId", "Brand", "Description", "Seats", "Requires License", "Is Available" }.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
     }
 }
