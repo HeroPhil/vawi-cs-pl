@@ -3,10 +3,10 @@
 This is a repository for the VAWi Course C Sharp for Software Engineers.
 
 ## How to use this repository
-The repository is structured in the following way:
-bin/ - Contains the compiled binaries of the project (mac)
-obj/ - Contains the object files of the project (mac)
-src/ - Contains the source files of the project. The main file is Program.cs.
+The repository is structured in the following way:  
+bin/ - Contains the compiled binaries of the project (mac)  
+obj/ - Contains the object files of the project (mac)  
+src/ - Contains the source files of the project. The main file is Program.cs.  
 data/ - Contains the data storage files of the project. When the program is run, the data is loaded from this folder. Example data is provided.
 
 ## How to compile the project
