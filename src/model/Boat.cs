@@ -10,12 +10,12 @@ public class Boat : AbstractModel<Boat>
     {
         get
         {
-            Rental[] rentals = RentalController.GetInstance().GetAllForBoat(ID);
+            Rental[] rentals = RentalController.GetInstance().GetAllActive(ID);
             DateOnly now = DateOnly.FromDateTime(DateTime.Now);
 
             foreach (Rental rental in rentals)
             {
-                if (rental.StartDate <= now && rental.EndDate >= now)
+                if (rental.StartDate <= now && rental.EndDate >= now && !rental.returned)
                 {
                     return false;
                 }

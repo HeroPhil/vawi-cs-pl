@@ -32,6 +32,8 @@ public class Rental : AbstractModel<Rental>
         }
     } // in cents
 
+    public bool returned { get; set; }
+
     public Rental()
     {
         ID = -1;
@@ -39,15 +41,17 @@ public class Rental : AbstractModel<Rental>
         BoatID = -1;
         StartDate = DateOnly.FromDateTime(DateTime.Now);
         EndDate = StartDate.AddDays(1);
+        returned = false;
     }
 
-    public Rental(int id, int customerID, int boatID, DateOnly startDate, DateOnly endDate)
+    public Rental(int id, int customerID, int boatID, DateOnly startDate, DateOnly endDate, bool returned)
     {
         ID = id;
         CustomerID = customerID;
         BoatID = boatID;
         StartDate = startDate;
         EndDate = endDate;
+        returned = false;
     }
 
     public override Rental SetValues(params string[] values)
@@ -67,7 +71,7 @@ public class Rental : AbstractModel<Rental>
 
     public override string[] GetDetailedValues()
     {
-        return new string[] { ID.ToString(), CustomerID.ToString(), BoatID.ToString(), StartDate.ToString(), EndDate.ToString(), Duration.ToString(), TotalPrice.ToString() };
+        return new string[] { ID.ToString(), CustomerID.ToString(), BoatID.ToString(), StartDate.ToString(), EndDate.ToString(), Duration.ToString(), TotalPrice.ToString(), returned.ToString() };
     }
 
     public override string GetHeader()
@@ -77,6 +81,6 @@ public class Rental : AbstractModel<Rental>
 
     public override string GetDetailedHeader()
     {
-        return new string[] { "ID", "CustomerID", "BoatID", "StartDate", "EndDate", "Duration", "TotalPrice" }.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
+        return new string[] { "ID", "CustomerID", "BoatID", "StartDate", "EndDate", "Duration", "TotalPrice", "Returned" }.Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b);
     }
 }

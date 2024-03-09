@@ -5,7 +5,16 @@
     <CustomerID>1</CustomerID>
     <BoatID>1</BoatID>
     <ProxyStartDate>3/7/2024</ProxyStartDate>
-    <ProxyEndDate>3/8/2024</ProxyEndDate>
+    <ProxyEndDate>3/9/2024</ProxyEndDate>
+    <returned>true</returned>
+  </Rental>
+  <Rental>
+    <ID>2</ID>
+    <CustomerID>1</CustomerID>
+    <BoatID>1</BoatID>
+    <ProxyStartDate>3/8/2024</ProxyStartDate>
+    <ProxyEndDate>3/9/2024</ProxyEndDate>
+    <returned>false</returned>
   </Rental>
   <Rental>
     <ID>2</ID>
@@ -13,5 +22,6 @@
     <BoatID>2</BoatID>
     <ProxyStartDate>3/7/2024</ProxyStartDate>
     <ProxyEndDate>3/9/2024</ProxyEndDate>
+    <returned>false</returned>
   </Rental>
 </ArrayOfRental>

@@ -59,6 +59,9 @@ public class Program
                     case "rent":
                         Rent(parameters);
                         continue;
+                    case "return":
+                        Return(parameters);
+                        continue;
                     case "save":
                         CustomerController.GetInstance().Save();
                         BoatCategoryController.GetInstance().Save();
@@ -205,6 +208,12 @@ public class Program
             case "boat":
                 BoatController.GetInstance().Update(id, (Boat boat) => UpdateModelWithUserInput(boat));
                 return;
+            case "rental":
+                if (!ChatUtil.Confirm("WARNING: It is not recommended to update rentals! All protections will be bypassed.\nConsider to remove or return this rental and create a new one.\nDo you want to continue anyway?")) {
+                    throw new Exception("Update Aborted!");
+                }
+                RentalController.GetInstance().Update(id, (Rental rental) => UpdateModelWithUserInput(rental));
+                return;
             default:
                 ChatUtil.PrintUpdateHelp();
                 throw new Exception($"Unknown model type \"{token[0]}\"!");
@@ -285,6 +294,7 @@ public class Program
         switch (token[0])
         {
             case "customer":
+                // todo check if customer has rentals
                 // if (TeilnahmeController.GetInstance().GetAllForPerson(id).Length > 0)
                 // {
                 //     throw new Exception("Cannot remove a student that is assigned to a course!");
@@ -305,11 +315,23 @@ public class Program
             case "boat":
                 BoatController.GetInstance().Remove(id);
                 return;
+            case "rental":
+                Rental rental = RentalController.GetInstance().GetByID(id);
+                if (rental.StartDate < DateOnly.FromDateTime(DateTime.Now) && !rental.returned)
+                {
+                    throw new Exception("Cannot remove a rental that has already started! Return it first!");
+                }
+                RentalController.GetInstance().Remove(id);
+                return;
             default:
                 throw new Exception($"Unknown model type \"{token[0]}\"!");
         }
     }
 
+    // <summary>
+    // Rents a boat to a customer.
+    // </summary>
+    // <param name="token">The command token.</param>
     private static void Rent(string[] token)
     {
         if (token.Length != 0)
@@ -319,7 +341,7 @@ public class Program
         }
 
         Rental request = CreateModelWithUserInput<Rental>(RentalController.GetInstance().NextFreeId);
-        while (!RentalController.validateRental(request))
+        while (!RentalController.ValidateRental(request))
         {
             if (!ChatUtil.Confirm("Do you want to change the rental and try again?"))
             {
@@ -329,6 +351,62 @@ public class Program
         }
 
         RentalController.GetInstance().Add(request);
+    }
+
+    private static void Return(string[] token)
+    {
+        if (token.Length > 1)
+        {
+            //ChatUtil.PrintReturnHelp(); //todo
+            throw new Exception("Invalid Syntax. Expecting at most one parameter");
+        }
+
+        // get rental
+        int id;
+        if (token.Length == 1)
+        {
+            id = int.Parse(token[0]);
+        }
+        else
+        {
+            RentalController.GetInstance().PrintAllActive();
+            id = int.Parse(ChatUtil.GetInlineInput("Enter the rental id: "));
+        }
+        Rental rental = RentalController.GetInstance().GetByID(id);
+
+        // print rental details
+        Console.WriteLine(rental.GetDetailedHeader());
+        Console.WriteLine(rental.GetDetailedValues().Aggregate((a, b) => a + ChatUtil.FieldDelimiter + b));
+
+        // check if rental is currently active
+        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+        if (rental.StartDate >= today)
+        {
+            throw new Exception("This rental is not currently active!");
+        }
+
+        // check if rental is already returned
+        if (rental.returned)
+        {
+            throw new Exception("This rental is already returned!");
+        }
+
+        // confirm return
+        if (!ChatUtil.Confirm("Do you want to confirm the return of this rental?"))
+        {
+            throw new Exception("Return Aborted!");
+        }
+
+        // check if rental is overdue
+        if (rental.EndDate < today && ChatUtil.Confirm("This rental is overdue. Do you want to change the end date?"))
+        {
+            rental.EndDate = today;
+            Console.WriteLine("The end date has been updated to today.");
+            Console.WriteLine("The new total price is " + rental.TotalPrice);
+        }
+
+        // mark rental as returned
+        RentalController.GetInstance().Update(rental.ID, (Rental rental) => rental.returned = true);
     }
 
 }
