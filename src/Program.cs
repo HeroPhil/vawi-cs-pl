@@ -294,15 +294,10 @@ public class Program
         switch (token[0])
         {
             case "customer":
-                // todo check if customer has rentals
-                // if (TeilnahmeController.GetInstance().GetAllForPerson(id).Length > 0)
-                // {
-                //     throw new Exception("Cannot remove a student that is assigned to a course!");
-                // }
-                // if (KursController.GetInstance().GetByDozentId(id).Length > 0)
-                // {
-                //     throw new Exception("Cannot remove a dozent that is assigned to a course!");
-                // }
+                if (RentalController.GetInstance().GetAllForCustomer(id).Length > 0)
+                {
+                    throw new Exception("Cannot remove a customer which still has rentals!");
+                }
                 CustomerController.GetInstance().Remove(id);
                 return;
             case "category":
